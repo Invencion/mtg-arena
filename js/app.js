@@ -6,6 +6,9 @@ let myPlayerSlot = 1;
 let isMyTurn = true;
 let myNickname = "Player";
 
+let activeContextCard = null;
+let activeContextCardRef = null; // Hangi diziye ait olduğunu bilmek için
+
 document.addEventListener('DOMContentLoaded', () => {
   const welcomeModal = document.getElementById('welcome-modal');
   const joinBtn = document.getElementById('join-table-btn');
@@ -36,6 +39,49 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Sağ tık menüsü kapatma
+  window.addEventListener('click', () => {
+    const ctxMenu = document.getElementById('card-context-menu');
+    if (ctxMenu) ctxMenu.style.display = 'none';
+  });
+
+  // Sağ tık menü butonları işlevleri
+  document.getElementById('ctx-tap').addEventListener('click', () => {
+    if (!activeContextCard) return;
+    activeContextCard.isTapped = !activeContextCard.isTapped;
+    renderBoard();
+    renderCommander();
+    renderHand();
+  });
+
+  document.getElementById('ctx-preview').addEventListener('click', () => {
+    if (!activeContextCard) return;
+    const cleanName = (activeContextCard.name || "Forest").split('//')[0].trim();
+    showTtsPopup(`https://api.scryfall.com/cards/named?exact=${encodeURIComponent(cleanName)}&format=image`);
+  });
+
+  document.getElementById('ctx-graveyard').addEventListener('click', () => {
+    if (!activeContextCard) return;
+    // Kartı mevcut olduğu yerden çıkarıp mezarlığa atalım
+    removeCardGlobally(activeContextCard.instanceId);
+    activeContextCard.isTapped = false;
+    activeContextCard.isFacedDown = false;
+    graveyard.push(activeContextCard);
+    
+    renderBoard();
+    renderCommander();
+    renderHand();
+    updatePilesUI();
+  });
+
+  document.getElementById('ctx-flip').addEventListener('click', () => {
+    if (!activeContextCard) return;
+    activeContextCard.isFacedDown = !activeContextCard.isFacedDown;
+    renderBoard();
+    renderCommander();
+    renderHand();
+  });
+
   const gravePile = document.getElementById('graveyard-pile');
   if (gravePile) gravePile.addEventListener('click', () => openPileModal('Graveyard', graveyard));
 
@@ -58,20 +104,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const endTurnBtn = document.getElementById('end-turn-btn');
   if (endTurnBtn) endTurnBtn.addEventListener('click', endTurn);
 
-  document.querySelectorAll('.mana-box').forEach(box => {
-    const colorKey = box.querySelector('.mana-label').innerText;
-    box.addEventListener('click', (e) => { e.preventDefault(); addMana(colorKey, 1); });
-    box.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
-      if (manaPool[colorKey] > 0) { manaPool[colorKey]--; updateManaPoolUI(); }
-    });
-  });
-
   document.querySelectorAll('.phase-step').forEach(step => {
     step.addEventListener('click', (e) => {
       document.querySelectorAll('.phase-step').forEach(s => s.classList.remove('active'));
       e.target.classList.add('active');
-      if (e.target.innerText === 'UNTAP') clearManaPool();
     });
   });
 
@@ -88,7 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const typeStr = (selectedTutorCard.type || "").toLowerCase();
     selectedTutorCard.isTapped = false;
     selectedTutorCard.isFacedDown = false;
-    selectedTutorCard.rotation = 0;
     selectedTutorCard.x = 50 + Math.random() * 200;
     selectedTutorCard.y = 20 + Math.random() * 100;
     if (typeStr.includes('land')) boardState.lands.push(selectedTutorCard);
@@ -208,8 +243,7 @@ function parseAndInitDeck(text) {
           ...cardObj,
           instanceId: Math.random().toString(36).substr(2, 9),
           isTapped: false,
-          isFacedDown: false,
-          rotation: 0
+          isFacedDown: false
         });
       }
     } else {
@@ -242,8 +276,7 @@ function openSideboardModal() {
         ...card,
         instanceId: Math.random().toString(36).substr(2, 9),
         isTapped: false,
-        isFacedDown: false,
-        rotation: 0
+        isFacedDown: false
       };
       hand.push(cardCopy);
       renderHand();
@@ -253,6 +286,19 @@ function openSideboardModal() {
   });
 
   pileModal.style.display = 'flex';
+}
+
+function removeCardGlobally(instanceId) {
+  const handIdx = hand.findIndex(c => c.instanceId === instanceId);
+  if (handIdx !== -1) { hand.splice(handIdx, 1); return; }
+
+  if (commander && commander.instanceId === instanceId) { commander = null; renderCommander(); return; }
+
+  const bIdx = boardState.battlefield.findIndex(c => c.instanceId === instanceId);
+  if (bIdx !== -1) { boardState.battlefield.splice(bIdx, 1); return; }
+
+  const lIdx = boardState.lands.findIndex(c => c.instanceId === instanceId);
+  if (lIdx !== -1) { boardState.lands.splice(lIdx, 1); return; }
 }
 
 function spawnCounter(type) {
@@ -297,8 +343,8 @@ function spawnCounter(type) {
   });
 
   function updateCounterDisplay() {
-    if (isMinus) counter.innerText = `-${counterValue}/-${counterValue}`;
-    else counter.innerText = `+${counterValue}/+${counterValue}`;
+    if (isMinus) counter.innerText = `-${counterValue}`;
+    else counter.innerText = `+${counterValue}`;
   }
 
   let isDragging = false;
@@ -373,7 +419,6 @@ socket.on('sync-board', (data) => {
 socket.on('sync-turn', (data) => {
   isMyTurn = true;
   updateTurnUI();
-  clearManaPool();
 });
 
 function endTurn() {
@@ -420,20 +465,13 @@ let myLife = 40;
 let activeZoomBoardId = null;
 let selectedTutorCard = null;
 
-let manaPool = { C: 0, W: 0, U: 0, B: 0, R: 0, G: 0 };
 let isZPressed = false;
 let currentHoveredCardImgSrc = null;
-let currentHoveredCardInstanceId = null;
 
 window.addEventListener('keydown', (e) => {
-  const key = e.key.toLowerCase();
-  if (key === 'z') {
+  if (e.key.toLowerCase() === 'z') {
     isZPressed = true;
     if (currentHoveredCardImgSrc) showTtsPopup(currentHoveredCardImgSrc);
-  } else if (key === 'q' || key === 'e') {
-    if (currentHoveredCardInstanceId) {
-      rotateCard(currentHoveredCardInstanceId, key === 'e' ? 90 : -90);
-    }
   }
 });
 
@@ -443,28 +481,6 @@ window.addEventListener('keyup', (e) => {
     hideTtsPopup();
   }
 });
-
-function rotateCard(instanceId, angleChange) {
-  let targetCard = null;
-
-  targetCard = boardState.battlefield.find(c => c.instanceId === instanceId);
-  if (!targetCard) {
-    targetCard = boardState.lands.find(c => c.instanceId === instanceId);
-  }
-  if (!targetCard && commander && commander.instanceId === instanceId) {
-    targetCard = commander;
-  }
-
-  if (targetCard) {
-    if (targetCard.rotation === undefined) targetCard.rotation = 0;
-    targetCard.rotation = (targetCard.rotation + angleChange) % 360;
-    if (targetCard.rotation < 0) targetCard.rotation += 360;
-
-    renderBoard();
-    renderCommander();
-    socket.emit('board-update', { roomCode, type: 'board-state', boardState });
-  }
-}
 
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -480,12 +496,11 @@ function initGameFromJSON(rawCards) {
   commander = null;
   graveyard = [];
   exile = [];
-  clearManaPool();
 
   rawCards.forEach(card => {
     const isLegendary = card.type && (card.type.toLowerCase().includes("legendary") || card.type.toLowerCase().includes("legend"));
     if (isLegendary && !commander) {
-      commander = { ...card, instanceId: "commander-card-id", isTapped: false, isFacedDown: false, rotation: 0 };
+      commander = { ...card, instanceId: "commander-card-id", isTapped: false, isFacedDown: false };
     } else {
       const amount = card.count || 1;
       for (let i = 0; i < amount; i++) {
@@ -493,8 +508,7 @@ function initGameFromJSON(rawCards) {
           ...card,
           instanceId: Math.random().toString(36).substr(2, 9),
           isTapped: false,
-          isFacedDown: false,
-          rotation: 0
+          isFacedDown: false
         });
       }
     }
@@ -512,49 +526,6 @@ function initGameFromJSON(rawCards) {
   renderAllOpponents();
   updatePilesUI();
   setupDropZones();
-}
-
-function updateManaPoolUI() {
-  ['c', 'w', 'u', 'b', 'r', 'g'].forEach(color => {
-    const el = document.getElementById(`mana-${color}`);
-    if (el) el.innerText = manaPool[color.toUpperCase()];
-  });
-}
-
-function addMana(color, amount = 1) {
-  const key = color.toUpperCase();
-  if (manaPool[key] !== undefined) {
-    manaPool[key] += amount;
-    updateManaPoolUI();
-  }
-}
-
-function clearManaPool() {
-  manaPool = { C: 0, W: 0, U: 0, B: 0, R: 0, G: 0 };
-  updateManaPoolUI();
-}
-
-function getLandManaType(cardName) {
-  const name = (cardName || "").toLowerCase();
-  if (name.includes("forest")) return "G";
-  if (name.includes("swamp")) return "B";
-  if (name.includes("island")) return "U";
-  if (name.includes("plains")) return "W";
-  if (name.includes("mountain")) return "R";
-  return "G";
-}
-
-function toggleTapCard(card, element, isLandZone = false) {
-  card.isTapped = !card.isTapped;
-  if (card.isTapped) {
-    element.classList.add('tapped');
-    if (isLandZone) {
-      const manaType = getLandManaType(card.name);
-      addMana(manaType, 1);
-    }
-  } else {
-    element.classList.remove('tapped');
-  }
 }
 
 function showTtsPopup(imgSrc) {
@@ -576,11 +547,6 @@ function createCardElement(card, isOnBoard = false, isLandZone = false) {
   wrapper.classList.add('card-wrapper');
   if (card.isTapped) wrapper.classList.add('tapped');
   
-  // Rotasyon ve tap açısını birleştirip akıcı geçiş sağlama
-  let totalRot = card.rotation || 0;
-  if (card.isTapped) totalRot += 90;
-  wrapper.style.transform = `rotate(${totalRot}deg)`;
-
   wrapper.draggable = true;
   wrapper.dataset.instanceId = card.instanceId;
 
@@ -613,23 +579,20 @@ function createCardElement(card, isOnBoard = false, isLandZone = false) {
 
   wrapper.appendChild(img);
 
-  if (isOnBoard) {
-    wrapper.addEventListener('click', (e) => {
-      e.stopPropagation();
-      toggleTapCard(card, wrapper, isLandZone);
-    });
-
-    wrapper.addEventListener('dblclick', (e) => {
-      e.stopPropagation();
-      card.isFacedDown = !card.isFacedDown;
-      if (activeZoomBoardId) renderInspectedBoard(activeZoomBoardId);
-      else renderBoard();
-      renderAllOpponents();
-    });
-  }
+  // Sol tık işlevini kaldırıyoruz, sadece sürükleme veya sağ tık kalıyor.
+  // Sağ tık menüsü açma:
+  wrapper.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    activeContextCard = card;
+    const ctxMenu = document.getElementById('card-context-menu');
+    if (ctxMenu) {
+      ctxMenu.style.display = 'block';
+      ctxMenu.style.left = `${e.clientX}px`;
+      ctxMenu.style.top = `${e.clientY}px`;
+    }
+  });
 
   wrapper.addEventListener('mouseenter', () => {
-    currentHoveredCardInstanceId = card.instanceId;
     if (!card.isFacedDown) {
       currentHoveredCardImgSrc = img.src;
       if (isZPressed) showTtsPopup(img.src);
@@ -637,9 +600,6 @@ function createCardElement(card, isOnBoard = false, isLandZone = false) {
   });
 
   wrapper.addEventListener('mouseleave', () => {
-    if (currentHoveredCardInstanceId === card.instanceId) {
-      currentHoveredCardInstanceId = null;
-    }
     if (currentHoveredCardImgSrc === img.src) currentHoveredCardImgSrc = null;
     hideTtsPopup();
   });
@@ -766,7 +726,7 @@ function untapAllCards() {
 function renderCommander() {
   const slot = document.getElementById('commander-card-slot');
   if (!slot) return;
-  slot.innerHTML = '<span style="font-size:0.7em; position:absolute; top:2px; left:4px; color:#ffd700; z-index:5;">COMMAND</span>';
+  slot.innerHTML = '<span style="font-size:0.6em; position:absolute; top:2px; left:4px; color:#ffd700; z-index:5;">COMMAND</span>';
   if (commander) slot.appendChild(createCardElement(commander, false));
 }
 
