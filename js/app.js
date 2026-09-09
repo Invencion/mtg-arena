@@ -42,6 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const exilePile = document.getElementById('exile-pile');
   if (exilePile) exilePile.addEventListener('click', () => openPileModal('Exile', exile));
 
+  const sideboardPile = document.getElementById('sideboard-pile');
+  if (sideboardPile) sideboardPile.addEventListener('click', () => openSideboardModal());
+
   const closePileBtn = document.getElementById('close-pile-modal');
   if (closePileBtn) closePileBtn.addEventListener('click', () => { pileModal.style.display = 'none'; });
 
@@ -139,6 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function parseAndInitDeck(text) {
   const lines = text.split('\n');
   const rawCards = [];
+  sideboard = [];
   
   const cleanLines = lines.map(l => l.trim()).filter(l => l && !l.startsWith('//'));
   let commanderName = "";
@@ -191,11 +195,24 @@ function parseAndInitDeck(text) {
       typeStr = "Land";
     }
 
-    rawCards.push({
+    const cardObj = {
       name: name,
       count: count,
       type: typeStr
-    });
+    };
+
+    if (isSideboard) {
+      for (let i = 0; i < count; i++) {
+        sideboard.push({
+          ...cardObj,
+          instanceId: Math.random().toString(36).substr(2, 9),
+          isTapped: false,
+          isFacedDown: false
+        });
+      }
+    } else {
+      rawCards.push(cardObj);
+    }
   });
 
   if (commanderName) {
@@ -207,6 +224,32 @@ function parseAndInitDeck(text) {
   }
 
   initGameFromJSON(rawCards);
+  updatePilesUI();
+}
+
+function openSideboardModal() {
+  if (!pileModal || !pileCardsContainer) return;
+  document.getElementById('pile-modal-title').innerText = `Sideboard (${sideboard.length})`;
+  pileCardsContainer.innerHTML = '';
+
+  sideboard.forEach((card) => {
+    const cardEl = createCardElement(card, false);
+    cardEl.title = "Click to copy to Hand";
+    cardEl.addEventListener('click', () => {
+      const cardCopy = {
+        ...card,
+        instanceId: Math.random().toString(36).substr(2, 9),
+        isTapped: false,
+        isFacedDown: false
+      };
+      hand.push(cardCopy);
+      renderHand();
+      alert(`Copied ${card.name} to your hand!`);
+    });
+    pileCardsContainer.appendChild(cardEl);
+  });
+
+  pileModal.style.display = 'flex';
 }
 
 function spawnCounter(type) {
@@ -360,6 +403,7 @@ let deck = [];
 let hand = [];
 let commander = null;
 let boardState = { battlefield: [], lands: [] };
+let sideboard = [];
 
 let opponentBoards = {
   'board-opp1': { battlefield: [], lands: [] },
@@ -900,7 +944,9 @@ function updatePilesUI() {
   const dCount = document.getElementById('deck-count');
   const gCount = document.getElementById('graveyard-count');
   const eCount = document.getElementById('exile-count');
+  const sCount = document.getElementById('sideboard-count');
   if (dCount) dCount.innerText = deck.length;
   if (gCount) gCount.innerText = graveyard.length;
   if (eCount) eCount.innerText = exile.length;
+  if (sCount) sCount.innerText = sideboard.length;
 }
