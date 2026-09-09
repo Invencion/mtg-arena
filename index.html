@@ -23,7 +23,7 @@
           <input type="text" id="player-nickname-input" placeholder="e.g. Alperen" value="Player" style="width: 100%; padding: 10px; background: #050608; border: 1px solid #c5a059; color: #fff; border-radius: 4px; font-family: inherit;" />
         </div>
         <div>
-          <label style="font-size: 0.65em; color: #c5a059; display: block; margin-bottom: 4px;">DECKLIST (e.g. 1 Sol Ring)</label>
+          <label style="font-size: 0.65em; color: #c5a059; display: block; margin-bottom: 4px;">DECKLIST (Moxfield Plain Text)</label>
           <textarea id="decklist-input" placeholder="Paste your decklist here..." style="width: 100%; height: 120px; padding: 10px; background: #050608; border: 1px solid #c5a059; color: #fff; border-radius: 4px; font-family: inherit; font-size: 0.75em; resize: vertical;"></textarea>
         </div>
       </div>
@@ -134,11 +134,9 @@
     <!-- MAIN PLAYER AREA (BOTTOM) -->
     <div id="main-player-container">
       <div id="play-field">
-        <!-- Birlikleşmiş ve Serbest Sürükleme Yapılabilen Battlefield Alanı -->
         <div id="battlefield-zone">
           <span class="zone-label">Battlefield</span>
         </div>
-        <!-- Sabit Arazi Alanı -->
         <div class="field-zone land-zone" id="land-zone">
           <span class="zone-label">Lands</span>
         </div>
@@ -170,6 +168,11 @@
         <div class="pile" id="command-zone">
           <span style="font-size:0.7em;">COMMAND</span>
           <div id="commander-card-slot"></div>
+        </div>
+
+        <div class="pile" id="sideboard-pile" style="cursor: pointer; background: rgba(123, 31, 162, 0.2); border-color: #7b1fa2;">
+          <span style="font-size: 0.65em;">SIDEBOARD</span>
+          <span class="pile-count" id="sideboard-count">0</span>
         </div>
 
         <div class="pile" id="exile-pile">
