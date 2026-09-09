@@ -79,9 +79,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const typeStr = (selectedTutorCard.type || "").toLowerCase();
     selectedTutorCard.isTapped = false;
     selectedTutorCard.isFacedDown = false;
-    if (typeStr.includes('creature')) boardState.creatures.push(selectedTutorCard);
-    else if (typeStr.includes('land')) boardState.lands.push(selectedTutorCard);
-    else boardState.noncreatures.push(selectedTutorCard);
+    selectedTutorCard.x = 50 + Math.random() * 200;
+    selectedTutorCard.y = 20 + Math.random() * 50;
+    if (typeStr.includes('land')) boardState.lands.push(selectedTutorCard);
+    else boardState.battlefield.push(selectedTutorCard);
     finalizeTutor();
   });
 
@@ -138,9 +139,7 @@ function spawnCounter(type) {
   
   let counterValue = 1;
   const isMinus = type.includes('-');
-  if (isMinus) {
-    counter.classList.add('minus');
-  }
+  if (isMinus) counter.classList.add('minus');
 
   counter.style.left = `50%`;
   counter.style.top = `40%`;
@@ -156,11 +155,8 @@ function spawnCounter(type) {
   counter.addEventListener('contextmenu', (e) => {
     e.preventDefault();
     counterValue--;
-    if (counterValue <= 0) {
-      counter.remove();
-    } else {
-      updateCounterDisplay();
-    }
+    if (counterValue <= 0) counter.remove();
+    else updateCounterDisplay();
   });
 
   counter.addEventListener('dblclick', (e) => {
@@ -171,18 +167,13 @@ function spawnCounter(type) {
       if (!isNaN(parsed) && parsed > 0) {
         counterValue = parsed;
         updateCounterDisplay();
-      } else if (parsed <= 0) {
-        counter.remove();
-      }
+      } else if (parsed <= 0) counter.remove();
     }
   });
 
   function updateCounterDisplay() {
-    if (isMinus) {
-      counter.innerText = `-${counterValue}/-${counterValue}`;
-    } else {
-      counter.innerText = `+${counterValue}/+${counterValue}`;
-    }
+    if (isMinus) counter.innerText = `-${counterValue}/-${counterValue}`;
+    else counter.innerText = `+${counterValue}/+${counterValue}`;
   }
 
   let isDragging = false;
@@ -234,9 +225,7 @@ socket.on('update-players', (players) => {
       if (oppIndex < oppSlots.length) {
         const targetOppId = oppSlots[oppIndex];
         const oppTitle = document.querySelector(`#${targetOppId} .player-title span`);
-        if (oppTitle) {
-          oppTitle.innerText = p.username;
-        }
+        if (oppTitle) oppTitle.innerText = p.username;
         oppIndex++;
       }
     }
@@ -245,10 +234,9 @@ socket.on('update-players', (players) => {
 
 socket.on('sync-board', (data) => {
   if (data.type === 'board-state') {
-    if (data.boardState && data.boardState.creatures) {
-      opponentBoards['board-opp1'].creatures = data.boardState.creatures;
-      opponentBoards['board-opp1'].noncreatures = data.boardState.noncreatures;
-      opponentBoards['board-opp1'].lands = data.boardState.lands;
+    if (data.boardState) {
+      opponentBoards['board-opp1'].battlefield = data.boardState.battlefield || [];
+      opponentBoards['board-opp1'].lands = data.boardState.lands || [];
       renderAllOpponents();
     }
   } else if (data.type === 'life-change') {
@@ -292,12 +280,12 @@ function updateTurnUI() {
 let deck = [];
 let hand = [];
 let commander = null;
-let boardState = { creatures: [], noncreatures: [], lands: [] };
+let boardState = { battlefield: [], lands: [] };
 
 let opponentBoards = {
-  'board-opp1': { creatures: [], noncreatures: [], lands: [] },
-  'board-opp2': { creatures: [], noncreatures: [], lands: [] },
-  'board-opp3': { creatures: [], noncreatures: [], lands: [] }
+  'board-opp1': { battlefield: [], lands: [] },
+  'board-opp2': { battlefield: [], lands: [] },
+  'board-opp3': { battlefield: [], lands: [] }
 };
 
 let graveyard = [];
@@ -334,7 +322,7 @@ function shuffle(array) {
 function initGameFromJSON(rawCards) {
   deck = [];
   hand = [];
-  boardState = { creatures: [], noncreatures: [], lands: [] };
+  boardState = { battlefield: [], lands: [] };
   commander = null;
   graveyard = [];
   exile = [];
@@ -436,6 +424,11 @@ function createCardElement(card, isOnBoard = false, isLandZone = false) {
   wrapper.draggable = true;
   wrapper.dataset.instanceId = card.instanceId;
 
+  if (isOnBoard && !isLandZone && card.x !== undefined && card.y !== undefined) {
+    wrapper.style.left = `${card.x}px`;
+    wrapper.style.top = `${card.y}px`;
+  }
+
   wrapper.addEventListener('dragstart', (e) => {
     e.dataTransfer.setData('text/plain', card.instanceId);
     wrapper.classList.add('dragging');
@@ -495,8 +488,7 @@ function setupDropZones() {
     'graveyard-pile',
     'exile-pile',
     'command-zone',
-    'creature-zone',
-    'noncreature-zone',
+    'battlefield-zone',
     'land-zone',
     'player-hand'
   ];
@@ -519,13 +511,17 @@ function setupDropZones() {
       zone.classList.remove('drag-over');
       const instanceId = e.dataTransfer.getData('text/plain');
       if (!instanceId) return;
-      handleCardDrop(instanceId, zone.id);
+
+      const rect = zone.getBoundingClientRect();
+      const dropX = e.clientX - rect.left - 55; // Kart genişliğinin ortalaması
+      const dropY = e.clientY - rect.top - 77;  // Kart yüksekliğinin ortalaması
+
+      handleCardDrop(instanceId, zone.id, dropX, dropY);
     });
   });
 }
 
-function handleCardDrop(instanceId, targetZoneId) {
-  const isFieldZone = ['creature-zone', 'noncreature-zone', 'land-zone'].includes(targetZoneId);
+function handleCardDrop(instanceId, targetZoneId, dropX = 20, dropY = 20) {
   let foundCard = null;
 
   const handIndex = hand.findIndex(c => c.instanceId === instanceId);
@@ -541,9 +537,11 @@ function handleCardDrop(instanceId, targetZoneId) {
 
   if (!foundCard) {
     const activeState = activeZoomBoardId ? opponentBoards[activeZoomBoardId] : boardState;
-    for (const zoneName of ['creatures', 'noncreatures', 'lands']) {
-      const idx = activeState[zoneName].findIndex(c => c.instanceId === instanceId);
-      if (idx !== -1) { foundCard = activeState[zoneName].splice(idx, 1)[0]; break; }
+    const bIdx = activeState.battlefield.findIndex(c => c.instanceId === instanceId);
+    if (bIdx !== -1) { foundCard = activeState.battlefield.splice(bIdx, 1)[0]; }
+    else {
+      const lIdx = activeState.lands.findIndex(c => c.instanceId === instanceId);
+      if (lIdx !== -1) { foundCard = activeState.lands.splice(lIdx, 1)[0]; }
     }
   }
 
@@ -563,18 +561,6 @@ function handleCardDrop(instanceId, targetZoneId) {
 
   if (!foundCard) return;
 
-  if (activeZoomBoardId && isFieldZone) {
-    foundCard.isTapped = false;
-    foundCard.isFacedDown = false;
-    hand.push(foundCard);
-    renderHand();
-    if (activeZoomBoardId) renderInspectedBoard(activeZoomBoardId);
-    else renderBoard();
-    renderAllOpponents();
-    updatePilesUI();
-    return;
-  }
-
   const targetState = activeZoomBoardId ? opponentBoards[activeZoomBoardId] : boardState;
 
   if (targetZoneId === 'graveyard-pile') {
@@ -583,17 +569,16 @@ function handleCardDrop(instanceId, targetZoneId) {
     foundCard.isTapped = false; foundCard.isFacedDown = false; exile.push(foundCard);
   } else if (targetZoneId === 'command-zone') {
     foundCard.isTapped = false; foundCard.isFacedDown = false; commander = foundCard; renderCommander();
-  } else if (isFieldZone) {
+  } else if (targetZoneId === 'battlefield-zone') {
     foundCard.isTapped = false;
     foundCard.isFacedDown = false;
-    
-    if (targetZoneId === 'land-zone') {
-      targetState.lands.push(foundCard);
-    } else if (targetZoneId === 'creature-zone') {
-      targetState.creatures.push(foundCard);
-    } else if (targetZoneId === 'noncreature-zone') {
-      targetState.noncreatures.push(foundCard);
-    }
+    foundCard.x = Math.max(0, dropX);
+    foundCard.y = Math.max(0, dropY);
+    targetState.battlefield.push(foundCard);
+  } else if (targetZoneId === 'land-zone') {
+    foundCard.isTapped = false;
+    foundCard.isFacedDown = false;
+    targetState.lands.push(foundCard);
   } else if (targetZoneId === 'player-hand') {
     foundCard.isTapped = false; foundCard.isFacedDown = false; hand.push(foundCard);
   }
@@ -609,10 +594,9 @@ function handleCardDrop(instanceId, targetZoneId) {
 
 function untapAllCards() {
   const activeState = activeZoomBoardId ? opponentBoards[activeZoomBoardId] : boardState;
-  Object.keys(activeState).forEach(zone => {
-    activeState[zone].forEach(card => { card.isTapped = false; });
-  });
-  document.querySelectorAll('.field-zone .card-wrapper.tapped').forEach(el => el.classList.remove('tapped'));
+  activeState.battlefield.forEach(c => c.isTapped = false);
+  activeState.lands.forEach(c => c.isTapped = false);
+  document.querySelectorAll('.field-zone .card-wrapper.tapped, #battlefield-zone .card-wrapper.tapped').forEach(el => el.classList.remove('tapped'));
 }
 
 function renderCommander() {
@@ -648,9 +632,17 @@ function renderHand() {
 }
 
 function renderBoard() {
-  renderZone('creature-zone', boardState.creatures, 'Creatures', false);
-  renderZone('noncreature-zone', boardState.noncreatures, 'Artifacts & Enchantments', false);
+  renderBattlefieldZone('battlefield-zone', boardState.battlefield);
   renderZone('land-zone', boardState.lands, 'Lands', true);
+}
+
+function renderBattlefieldZone(elementId, cardArray) {
+  const container = document.getElementById(elementId);
+  if (!container) return;
+  container.innerHTML = `<span class="zone-label">Battlefield</span>`;
+  cardArray.forEach(card => {
+    container.appendChild(createCardElement(card, true, false));
+  });
 }
 
 function renderZone(elementId, cardArray, label, isLandZone = false) {
@@ -665,10 +657,9 @@ function renderAllOpponents() {
     const boardEl = document.getElementById(oppId);
     if (!boardEl) return;
     const miniZones = boardEl.querySelectorAll('.opp-zone');
-    if (miniZones.length >= 3) {
-      renderMiniZone(miniZones[0], opponentBoards[oppId].creatures);
-      renderMiniZone(miniZones[1], opponentBoards[oppId].noncreatures);
-      renderMiniZone(miniZones[2], opponentBoards[oppId].lands);
+    if (miniZones.length >= 2) {
+      renderMiniZone(miniZones[0], opponentBoards[oppId].battlefield, true);
+      renderMiniZone(miniZones[1], opponentBoards[oppId].lands, false);
     }
   });
 
@@ -676,16 +667,15 @@ function renderAllOpponents() {
     const activeBoardEl = document.getElementById(activeZoomBoardId);
     if (activeBoardEl) {
       const miniZones = activeBoardEl.querySelectorAll('.opp-zone');
-      if (miniZones.length >= 3) {
-        renderMiniZone(miniZones[0], boardState.creatures);
-        renderMiniZone(miniZones[1], boardState.noncreatures);
-        renderMiniZone(miniZones[2], boardState.lands);
+      if (miniZones.length >= 2) {
+        renderMiniZone(miniZones[0], boardState.battlefield, true);
+        renderMiniZone(miniZones[1], boardState.lands, false);
       }
     }
   }
 }
 
-function renderMiniZone(zoneEl, cardArray) {
+function renderMiniZone(zoneEl, cardArray, isFreeForm = false) {
   const labelEl = zoneEl.querySelector('.opp-zone-label');
   zoneEl.innerHTML = '';
   if (labelEl) zoneEl.appendChild(labelEl);
@@ -694,6 +684,15 @@ function renderMiniZone(zoneEl, cardArray) {
     const miniCard = document.createElement('div');
     miniCard.classList.add('card-wrapper');
     if (card.isTapped) miniCard.classList.add('tapped');
+    
+    if (isFreeForm && card.x !== undefined && card.y !== undefined) {
+      miniCard.style.position = 'absolute';
+      miniCard.style.left = `${card.x * 0.4}px`; // Mini görünüm için ölçeklendirme
+      miniCard.style.top = `${card.y * 0.4}px`;
+      miniCard.style.width = '44px';
+      miniCard.style.height = '61px';
+    }
+
     const img = document.createElement('img');
     img.classList.add('card-image');
     img.src = card.isFacedDown ? 'https://cards.scryfall.io/back.png' : `https://api.scryfall.com/cards/named?exact=${encodeURIComponent((card.name || "Forest").split('//')[0].trim())}&format=image`;
@@ -704,8 +703,7 @@ function renderMiniZone(zoneEl, cardArray) {
 
 function renderInspectedBoard(oppId) {
   const oppState = opponentBoards[oppId];
-  renderZone('creature-zone', oppState.creatures, 'Inspected Creatures', false);
-  renderZone('noncreature-zone', oppState.noncreatures, 'Inspected Artifacts & Enchantments', false);
+  renderBattlefieldZone('battlefield-zone', oppState.battlefield);
   renderZone('land-zone', oppState.lands, 'Inspected Lands', false);
 }
 
