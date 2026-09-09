@@ -636,3 +636,20 @@ body {
   cursor: grabbing;
   opacity: 0.5;
 }
+
+/* Kart Dönme Stili (Q ve E Tuşları İçin) */
+.card-wrapper {
+  transition: transform 0.2s ease;
+}
+
+.card-wrapper.rot-90 {
+  transform: rotate(90deg);
+}
+
+.card-wrapper.rot-180 {
+  transform: rotate(180deg);
+}
+
+.card-wrapper.rot-270 {
+  transform: rotate(270deg);
+}
