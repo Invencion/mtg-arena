@@ -22,14 +22,6 @@
           <label style="font-size: 0.65em; color: #c5a059; display: block; margin-bottom: 4px;">PLAYER NICKNAME</label>
           <input type="text" id="player-nickname-input" placeholder="e.g. Alperen" value="Player" style="width: 100%; padding: 10px; background: #050608; border: 1px solid #c5a059; color: #fff; border-radius: 4px; font-family: inherit;" />
         </div>
-        <div>
-          <label style="font-size: 0.65em; color: #c5a059; display: block; margin-bottom: 4px;">CUSTOM DECKLIST (Format: Count Card Name)</label>
-          <textarea id="decklist-input" rows="7" placeholder="1 Durnan of the Yawning Portal&#10;1 Sol Ring&#10;15 Forest&#10;10 Island" style="width: 100%; padding: 8px; background: #050608; border: 1px solid #c5a059; color: #fff; border-radius: 4px; font-family: monospace; font-size: 0.75em; resize: vertical;">1 Durnan of the Yawning Portal (CLB) 657 *F*
-1 Sword Coast Sailor (CLB) 98
-1 Sol Ring (FIC) 357
-10 Forest (LCI) 402
-10 Island (SCD) 339</textarea>
-        </div>
       </div>
 
       <button class="btn btn-draw" id="join-table-btn" style="width: 100%; padding: 12px; font-size: 0.8em;">Take Your Seat</button>
@@ -67,8 +59,7 @@
             </div>
           </div>
           <div class="opp-mini-zones">
-            <div class="opp-zone"><span class="opp-zone-label">CREATURES</span></div>
-            <div class="opp-zone"><span class="opp-zone-label">ARTIFACTS & ENCHANTMENTS</span></div>
+            <div class="opp-zone"><span class="opp-zone-label">BATTLEFIELD</span></div>
             <div class="opp-zone"><span class="opp-zone-label">LANDS</span></div>
           </div>
         </div>
@@ -94,8 +85,7 @@
             </div>
           </div>
           <div class="opp-mini-zones">
-            <div class="opp-zone"><span class="opp-zone-label">CREATURES</span></div>
-            <div class="opp-zone"><span class="opp-zone-label">ARTIFACTS & ENCHANTMENTS</span></div>
+            <div class="opp-zone"><span class="opp-zone-label">BATTLEFIELD</span></div>
             <div class="opp-zone"><span class="opp-zone-label">LANDS</span></div>
           </div>
         </div>
@@ -121,8 +111,7 @@
             </div>
           </div>
           <div class="opp-mini-zones">
-            <div class="opp-zone"><span class="opp-zone-label">CREATURES</span></div>
-            <div class="opp-zone"><span class="opp-zone-label">ARTIFACTS & ENCHANTMENTS</span></div>
+            <div class="opp-zone"><span class="opp-zone-label">BATTLEFIELD</span></div>
             <div class="opp-zone"><span class="opp-zone-label">LANDS</span></div>
           </div>
         </div>
@@ -141,12 +130,11 @@
     <!-- MAIN PLAYER AREA (BOTTOM) -->
     <div id="main-player-container">
       <div id="play-field">
-        <div class="field-zone creature-zone" id="creature-zone">
-          <span class="zone-label">Creatures</span>
+        <!-- Birlikleşmiş ve Serbest Sürükleme Yapılabilen Battlefield Alanı -->
+        <div id="battlefield-zone">
+          <span class="zone-label">Battlefield</span>
         </div>
-        <div class="field-zone noncreature-zone" id="noncreature-zone">
-          <span class="zone-label">Artifacts & Enchantments</span>
-        </div>
+        <!-- Sabit Arazi Alanı -->
         <div class="field-zone land-zone" id="land-zone">
           <span class="zone-label">Lands</span>
         </div>
@@ -170,7 +158,6 @@
           <div class="mana-box g-box"><span class="mana-label">G</span><span class="mana-count" id="mana-g">0</span></div>
         </div>
 
-        <!-- SIRA VE END TURN ALANI -->
         <div id="turn-control-box" style="width: 100%; background: rgba(0,0,0,0.6); border: 1px solid rgba(197, 160, 89, 0.3); border-radius: 6px; padding: 6px; text-align: center; margin-bottom: 4px;">
           <div id="turn-status-text" style="font-size: 0.6em; color: #ffd700; margin-bottom: 3px; font-weight: bold;">YOUR TURN</div>
           <button class="btn" id="end-turn-btn" style="background: linear-gradient(180deg, #d32f2f 0%, #b71c1c 100%); width: 100%;">End Turn</button>
