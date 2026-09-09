@@ -299,7 +299,7 @@ body {
   z-index: 100;
 }
 
-/* SAĞ SIDEBAR - Flex Esnek Yapı ve Genişletilmiş Komutan Alanı */
+/* SAĞ SIDEBAR - Kart Biçimli Komutan ve Esnek Zonelar */
 #deck-zone {
   width: 170px;
   background: rgba(8, 9, 12, 0.9);
@@ -308,7 +308,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 8px;
+  padding: 6px;
   z-index: 10;
   height: 100%;
   gap: 4px;
@@ -319,15 +319,15 @@ body {
   background: rgba(0,0,0,0.6);
   border: 1px solid rgba(197, 160, 89, 0.3);
   border-radius: 4px;
-  padding: 4px;
+  padding: 3px;
   text-align: center;
   flex-shrink: 0;
 }
 
-/* Commander Alanı Kart Boyutuna Yaklaştırıldı (Büyük ve Rahat) */
+/* Commander Alanı Tam Kart Oranında (57 / 80) Sabitlendi */
 #command-zone {
   width: 100%;
-  height: 155px;
+  aspect-ratio: 57 / 80;
   border: 2px solid #ffd700;
   background: rgba(255, 215, 0, 0.05);
   border-radius: 6px;
@@ -338,11 +338,12 @@ body {
   position: relative;
   box-shadow: 0 3px 8px rgba(0,0,0,0.6);
   flex-shrink: 0;
+  padding: 4px;
 }
 
 #commander-card-slot {
-  width: 90px;
-  height: 126px;
+  width: 100%;
+  height: calc(100% - 14px);
   position: relative;
   display: flex;
   justify-content: center;
@@ -351,13 +352,12 @@ body {
 
 #commander-card-slot .card-wrapper {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 90px;
-  height: 126px;
+  width: 100%;
+  height: 100%;
+  max-width: 110px;
 }
 
-/* Diğer Zonelar ve Piler Kalan Alanı Esnek Paylaşır */
+/* Diğer Piler Kalan Alanı Orantılı Paylaşır */
 .pile {
   width: 100%;
   flex: 1;
@@ -369,12 +369,12 @@ body {
   position: relative;
   background: #121418;
   border: 1px solid rgba(197, 160, 89, 0.3);
-  font-size: 0.6em;
+  font-size: 0.55em;
   color: #c5a059;
   user-select: none;
   box-shadow: 0 2px 5px rgba(0,0,0,0.6);
   cursor: pointer;
-  min-height: 35px;
+  min-height: 30px;
 }
 
 #sideboard-pile {
@@ -389,7 +389,7 @@ body {
 }
 
 .pile-count {
-  font-size: 1.15em;
+  font-size: 1.1em;
   font-weight: bold;
   margin-top: 1px;
   color: #fff;
@@ -458,11 +458,11 @@ body {
   background: linear-gradient(180deg, #388e3c 0%, #1b5e20 100%);
   color: white;
   border: 1px solid #c5a059;
-  padding: 4px;
+  padding: 3px;
   border-radius: 4px;
   cursor: pointer;
   font-weight: bold;
-  font-size: 0.65em;
+  font-size: 0.6em;
   width: 100%;
   text-transform: uppercase;
   flex-shrink: 0;
