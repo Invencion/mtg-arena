@@ -20,8 +20,8 @@ body {
   height: 100vh;
   width: 100vw;
   position: relative;
-  padding: 8px;
-  gap: 8px;
+  padding: 10px;
+  gap: 10px;
 }
 
 /* Phase Bar */
@@ -30,15 +30,16 @@ body {
   justify-content: center;
   gap: 6px;
   background: rgba(15, 18, 24, 0.8);
-  padding: 5px;
+  padding: 6px;
   border-radius: 6px;
   border: 1px solid rgba(197, 160, 89, 0.2);
+  height: 36px;
   flex-shrink: 0;
 }
 
 .phase-step {
-  font-size: 0.6em;
-  padding: 3px 8px;
+  font-size: 0.65em;
+  padding: 4px 10px;
   background: #050608;
   border: 1px solid rgba(197, 160, 89, 0.3);
   color: #888;
@@ -52,14 +53,14 @@ body {
   color: #000;
   font-weight: bold;
   border-color: #ffd700;
-  box-shadow: 0 0 6px rgba(197, 160, 89, 0.5);
+  box-shadow: 0 0 8px rgba(197, 160, 89, 0.5);
 }
 
 /* Opponents Container */
 #opponents-container {
   display: flex;
-  gap: 8px;
-  height: 155px;
+  gap: 10px;
+  height: 170px;
   flex-shrink: 0;
 }
 
@@ -69,10 +70,9 @@ body {
   border: 1px solid rgba(197, 160, 89, 0.2);
   border-radius: 8px;
   display: flex;
-  padding: 6px;
-  gap: 6px;
+  padding: 8px;
+  gap: 8px;
   position: relative;
-  transition: all 0.3s ease;
 }
 
 .opponent-board.swapped-board {
@@ -84,14 +84,14 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .player-title {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.6em;
+  font-size: 0.65em;
   color: #c5a059;
   font-weight: bold;
 }
@@ -100,7 +100,7 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
 }
 
 .opp-zone {
@@ -116,16 +116,16 @@ body {
   position: absolute;
   top: 2px;
   left: 4px;
-  font-size: 0.45em;
+  font-size: 0.5em;
   color: #666;
 }
 
 .opp-piles-sidebar {
-  width: 45px;
+  width: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
 
 .zoom-btn {
@@ -134,8 +134,8 @@ body {
   color: #c5a059;
   border-radius: 4px;
   cursor: pointer;
-  padding: 3px;
-  font-size: 0.6em;
+  padding: 4px;
+  font-size: 0.7em;
 }
 
 .zoom-btn.active {
@@ -146,19 +146,19 @@ body {
 .opp-piles-grid {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
 }
 
 .opp-pile {
-  width: 32px;
-  height: 38px;
+  width: 36px;
+  height: 42px;
   background: #111;
   border: 1px solid rgba(197, 160, 89, 0.3);
   border-radius: 3px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.55em;
+  font-size: 0.6em;
   color: #888;
 }
 
@@ -166,7 +166,7 @@ body {
 #main-player-container {
   flex: 1;
   display: flex;
-  gap: 8px;
+  gap: 10px;
   min-height: 0;
 }
 
@@ -174,74 +174,71 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   position: relative;
   min-height: 0;
 }
 
-/* Battlefield Alanı - Sabit ve dengeli yükseklik */
+/* Battlefield Alanı */
 #battlefield-zone {
   flex: 1;
-  min-height: 220px;
   border: 1px solid rgba(197, 160, 89, 0.3);
-  border-radius: 8px;
+  border-radius: 10px;
   background: linear-gradient(180deg, rgba(15, 18, 24, 0.7) 0%, rgba(8, 10, 14, 0.9) 100%);
   position: relative;
   overflow: hidden;
-  z-index: 3;
 }
 
 .land-zone {
-  height: 110px;
+  height: 120px;
   flex-shrink: 0;
   border-color: rgba(40, 140, 60, 0.3);
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
-  gap: 8px;
-  padding: 20px 8px 6px 8px;
+  gap: 10px;
+  padding: 24px 10px 8px 10px;
   background: linear-gradient(180deg, rgba(15, 18, 24, 0.6) 0%, rgba(8, 10, 14, 0.8) 100%);
   position: relative;
   overflow-x: auto;
-  z-index: 2;
 }
 
 #player-hand {
-  height: 120px;
+  height: 135px;
   flex-shrink: 0;
   background: rgba(15, 18, 24, 0.5);
   border: 1px solid rgba(197, 160, 89, 0.2);
-  border-radius: 8px;
+  border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  padding: 8px;
+  padding: 10px;
 }
 
 /* Sidebar */
 #deck-zone {
-  width: 135px;
+  width: 140px;
   flex-shrink: 0;
   background: rgba(15, 18, 24, 0.8);
   border: 1px solid rgba(197, 160, 89, 0.3);
-  border-radius: 8px;
-  padding: 6px;
+  border-radius: 10px;
+  padding: 8px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
   align-items: center;
-  overflow-y: auto;
 }
 
 .life-counter {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   background: #050608;
   border: 1px solid #c5a059;
-  padding: 3px 6px;
-  border-radius: 5px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  flex-shrink: 0;
 }
 
 .life-btn {
@@ -250,11 +247,11 @@ body {
   color: #c5a059;
   cursor: pointer;
   font-weight: bold;
-  font-size: 0.8em;
+  font-size: 0.9em;
 }
 
 .life-val {
-  font-size: 0.8em;
+  font-size: 0.9em;
   color: #ffd700;
   font-weight: bold;
 }
@@ -262,8 +259,9 @@ body {
 #mana-pool {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 3px;
+  gap: 4px;
   width: 100%;
+  flex-shrink: 0;
 }
 
 .mana-box {
@@ -271,53 +269,64 @@ body {
   border: 1px solid rgba(197, 160, 89, 0.3);
   border-radius: 4px;
   text-align: center;
-  padding: 2px;
+  padding: 3px;
   cursor: pointer;
 }
 
 .mana-label {
-  font-size: 0.45em;
+  font-size: 0.5em;
   display: block;
   color: #888;
 }
 
 .mana-count {
-  font-size: 0.65em;
+  font-size: 0.7em;
   color: #ffd700;
   font-weight: bold;
 }
 
+#turn-control-box {
+  width: 100%;
+  flex-shrink: 0;
+  background: rgba(0,0,0,0.6);
+  border: 1px solid rgba(197, 160, 89, 0.3);
+  border-radius: 6px;
+  padding: 5px;
+  text-align: center;
+}
+
 .pile {
   width: 100%;
-  height: 42px;
+  height: 48px;
   flex-shrink: 0;
   background: #050608;
   border: 1px solid rgba(197, 160, 89, 0.3);
-  border-radius: 5px;
+  border-radius: 6px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
-  font-size: 0.55em;
+  font-size: 0.6em;
   color: #aaa;
   cursor: pointer;
 }
 
 .pile-count {
-  font-size: 1em;
+  font-size: 1.1em;
   color: #ffd700;
   font-weight: bold;
 }
 
 #command-zone {
-  height: 65px;
+  height: 72px;
   border-color: #ffd700;
+  flex-shrink: 0;
 }
 
 #commander-card-slot {
-  width: 42px;
-  height: 58px;
+  width: 45px;
+  height: 63px;
   position: relative;
 }
 
@@ -325,8 +334,8 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  width: 42px;
-  height: 58px;
+  width: 45px;
+  height: 63px;
 }
 
 .btn {
@@ -336,9 +345,9 @@ body {
   font-family: inherit;
   font-weight: bold;
   border-radius: 4px;
-  padding: 5px;
+  padding: 6px;
   cursor: pointer;
-  font-size: 0.65em;
+  font-size: 0.7em;
   width: 100%;
   flex-shrink: 0;
 }
@@ -357,10 +366,10 @@ body {
   color: #fff;
 }
 
-/* Kart Stili & Animasyon Geçişleri (Q / E Rotasyonları İçin) */
+/* Kart Stili & Animasyon Geçişleri */
 .card-wrapper {
-  width: 100px;
-  height: 140px;
+  width: 110px;
+  height: 154px;
   position: relative;
   cursor: grab;
   transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
@@ -372,15 +381,11 @@ body {
   opacity: 0.5;
 }
 
-.card-wrapper.tapped {
-  transform: rotate(90deg);
-}
-
 .card-image {
   width: 100%;
   height: 100%;
-  border-radius: 7px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.5);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5);
   pointer-events: none;
 }
 
@@ -388,7 +393,7 @@ body {
   position: absolute;
   top: 4px;
   left: 8px;
-  font-size: 0.55em;
+  font-size: 0.6em;
   color: rgba(197, 160, 89, 0.5);
   pointer-events: none;
   z-index: 1;
@@ -438,7 +443,7 @@ body {
 
 .pile-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
   gap: 10px;
   overflow-y: auto;
   padding: 5px;
@@ -451,9 +456,9 @@ body {
   border: 2px solid #81c784;
   color: #fff;
   font-weight: bold;
-  padding: 5px 8px;
+  padding: 6px 10px;
   border-radius: 20px;
-  font-size: 0.7em;
+  font-size: 0.75em;
   cursor: grab;
   z-index: 50;
   box-shadow: 0 4px 10px rgba(0,0,0,0.6);
