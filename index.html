@@ -35,8 +35,8 @@
   <div id="arena-frame">
     <!-- COUNTER SPAWNER TOOLBAR -->
     <div id="counter-toolbar" style="position: absolute; top: 10px; right: 20px; display: flex; gap: 6px; z-index: 100;">
-      <button class="btn" onclick="spawnCounter('+1/+1')" style="background: linear-gradient(180deg, #2e7d32 0%, #1b5e20 100%); padding: 6px 10px; font-size: 0.65em;">+1/+1</button>
-      <button class="btn" onclick="spawnCounter('-1/-1')" style="background: linear-gradient(180deg, #c62828 0%, #b71c1c 100%); padding: 6px 10px; font-size: 0.65em;">-1/-1</button>
+      <button class="btn" onclick="spawnCounter('+1/+1')" style="background: linear-gradient(180deg, #2e7d32 0%, #1b5e20 100%); width: 60px;">+1/+1</button>
+      <button class="btn" onclick="spawnCounter('-1/-1')" style="background: linear-gradient(180deg, #c62828 0%, #b71c1c 100%); width: 60px;">-1/-1</button>
     </div>
 
     <!-- PHASE INDICATOR BAR -->
@@ -50,7 +50,7 @@
       <span class="phase-step">END</span>
     </div>
 
-    <!-- OPPONENTS AREA (TOP) -->
+    <!-- OPPONENTS CONTAINER -->
     <div id="opponents-container">
       <div class="opponent-board" id="board-opp1">
         <div class="opp-main-area">
@@ -145,57 +145,60 @@
 
       <!-- SIDEBAR -->
       <div id="deck-zone">
-        <div class="life-counter" style="margin-bottom: 8px;">
+        <div class="life-counter" style="margin-bottom: 4px;">
           <button class="life-btn" id="my-life-down">-</button>
           <span class="life-val" id="my-life">40</span>
           <button class="life-btn" id="my-life-up">+</button>
         </div>
 
-        <div id="mana-pool">
-          <div class="mana-box c-box"><span class="mana-label">C</span><span class="mana-count" id="mana-c">0</span></div>
-          <div class="mana-box w-box"><span class="mana-label">W</span><span class="mana-count" id="mana-w">0</span></div>
-          <div class="mana-box u-box"><span class="mana-label">U</span><span class="mana-count" id="mana-u">0</span></div>
-          <div class="mana-box b-box"><span class="mana-label">B</span><span class="mana-count" id="mana-b">0</span></div>
-          <div class="mana-box r-box"><span class="mana-label">R</span><span class="mana-count" id="mana-r">0</span></div>
-          <div class="mana-box g-box"><span class="mana-label">G</span><span class="mana-count" id="mana-g">0</span></div>
+        <div id="turn-control-box" style="width: 100%; background: rgba(0,0,0,0.6); border: 1px solid rgba(197, 160, 89, 0.3); border-radius: 6px; padding: 4px; text-align: center; margin-bottom: 4px;">
+          <div id="turn-status-text" style="font-size: 0.55em; color: #ffd700; margin-bottom: 2px; font-weight: bold;">YOUR TURN</div>
+          <button class="btn" id="end-turn-btn" style="background: linear-gradient(180deg, #d32f2f 0%, #b71c1c 100%); width: 100%; font-size: 0.6em; padding: 3px;">End Turn</button>
         </div>
 
-        <div id="turn-control-box" style="width: 100%; background: rgba(0,0,0,0.6); border: 1px solid rgba(197, 160, 89, 0.3); border-radius: 6px; padding: 6px; text-align: center; margin-bottom: 4px;">
-          <div id="turn-status-text" style="font-size: 0.6em; color: #ffd700; margin-bottom: 3px; font-weight: bold;">YOUR TURN</div>
-          <button class="btn" id="end-turn-btn" style="background: linear-gradient(180deg, #d32f2f 0%, #b71c1c 100%); width: 100%;">End Turn</button>
-        </div>
-
-        <div class="pile" id="command-zone">
-          <span style="font-size:0.7em;">COMMAND</span>
+        <div class="pile" id="command-zone" style="height: 75px;">
+          <span style="font-size:0.6em;">COMMAND</span>
           <div id="commander-card-slot"></div>
         </div>
 
-        <div class="pile" id="sideboard-pile" style="cursor: pointer; background: rgba(123, 31, 162, 0.2); border-color: #7b1fa2;">
-          <span style="font-size: 0.65em;">SIDEBOARD</span>
-          <span class="pile-count" id="sideboard-count">0</span>
+        <div class="pile" id="sideboard-pile" style="height: 40px; cursor: pointer; background: rgba(123, 31, 162, 0.2); border-color: #7b1fa2;">
+          <span style="font-size: 0.55em;">SIDEBOARD</span>
+          <span class="pile-count" id="sideboard-count" style="font-size: 0.9em;">0</span>
         </div>
 
-        <div class="pile" id="exile-pile">
-          <span>EXILE</span>
-          <span class="pile-count" id="exile-count">0</span>
+        <div class="pile" id="exile-pile" style="height: 40px;">
+          <span style="font-size: 0.55em;">EXILE</span>
+          <span class="pile-count" id="exile-count" style="font-size: 0.9em;">0</span>
         </div>
 
-        <div class="pile" id="graveyard-pile">
-          <span>GRAVEYARD</span>
-          <span class="pile-count" id="graveyard-count">0</span>
+        <div class="pile" id="graveyard-pile" style="height: 40px;">
+          <span style="font-size: 0.55em;">GRAVEYARD</span>
+          <span class="pile-count" id="graveyard-count" style="font-size: 0.9em;">0</span>
         </div>
 
-        <div class="pile" id="deck-pile">
-          <span>DECK</span>
-          <span class="pile-count" id="deck-count">99</span>
+        <div class="pile" id="deck-pile" style="height: 40px;">
+          <span style="font-size: 0.55em;">DECK</span>
+          <span class="pile-count" id="deck-count" style="font-size: 0.9em;">99</span>
         </div>
 
-        <button class="btn btn-draw" id="draw-btn">Draw</button>
-        <button class="btn btn-untap" id="untap-all-btn">Untap All</button>
-        <button class="btn" id="search-lib-btn" style="background: linear-gradient(180deg, #7b1fa2 0%, #4a148c 100%); width: 75px;">Search</button>
-        <button class="btn" id="shuffle-btn">Shuffle</button>
+        <div style="display: flex; gap: 4px; width: 100%;">
+          <button class="btn btn-draw" id="draw-btn" style="width: 50%;">Draw</button>
+          <button class="btn btn-untap" id="untap-all-btn" style="width: 50%;">Untap</button>
+        </div>
+        <div style="display: flex; gap: 4px; width: 100%;">
+          <button class="btn" id="search-lib-btn" style="background: linear-gradient(180deg, #7b1fa2 0%, #4a148c 100%); width: 50%;">Search</button>
+          <button class="btn" id="shuffle-btn" style="width: 50%;">Shuffle</button>
+        </div>
       </div>
     </div>
+  </div>
+
+  <!-- SAĞ TIK CONTEXT MENU -->
+  <div id="card-context-menu" style="display: none; position: fixed; background: #12151c; border: 1px solid #c5a059; border-radius: 6px; padding: 6px 0; z-index: 10005; box-shadow: 0 4px 15px rgba(0,0,0,0.8); min-width: 140px;">
+    <div class="context-item" id="ctx-tap" style="padding: 6px 14px; font-size: 0.7em; color: #fff; cursor: pointer;">Tap / Untap</div>
+    <div class="context-item" id="ctx-preview" style="padding: 6px 14px; font-size: 0.7em; color: #fff; cursor: pointer;">Preview Card</div>
+    <div class="context-item" id="ctx-graveyard" style="padding: 6px 14px; font-size: 0.7em; color: #ffd700; cursor: pointer;">Send to Graveyard</div>
+    <div class="context-item" id="ctx-flip" style="padding: 6px 14px; font-size: 0.7em; color: #fff; cursor: pointer;">Flip Face Down/Up</div>
   </div>
 
   <!-- MODALS -->
