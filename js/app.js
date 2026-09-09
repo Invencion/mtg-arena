@@ -139,18 +139,45 @@ document.addEventListener('DOMContentLoaded', () => {
 function parseAndInitDeck(text) {
   const lines = text.split('\n');
   const rawCards = [];
+  
   lines.forEach(line => {
-    const trimmed = line.trim();
-    if (!trimmed || trimmed.startsWith('//')) return;
-    const match = trimmed.match(/^(\d+)\s+(.+)$/);
+    let trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('//') || trimmed.toLowerCase().includes('commander')) return;
+    
+    trimmed = trimmed.replace(/\s*\([A-Z0-9]+\)\s*\d+.*$/, '');
+    trimmed = trimmed.replace(/^\s*\*?[Ff]?\s*/, '');
+    
+    const match = trimmed.match(/^(\d+)[xX]?\s+(.+)$/);
     let count = 1;
     let name = trimmed;
+    
     if (match) {
       count = parseInt(match[1]);
       name = match[2];
     }
-    rawCards.push({ name: name.trim(), count: count, type: name.toLowerCase().includes('land') ? 'Land' : 'Creature' });
+    
+    name = name.trim();
+    if (!name) return;
+
+    const lowerName = name.toLowerCase();
+    let typeStr = "Creature";
+    
+    if (lowerName.includes("land") || 
+        lowerName.includes("forest") || lowerName.includes("swamp") || 
+        lowerName.includes("island") || lowerName.includes("plains") || 
+        lowerName.includes("mountain") || lowerName.includes("shockland") ||
+        lowerName.includes("fetchland") || lowerName.includes("command tower") ||
+        lowerName.includes("overgrown tomb") || lowerName.includes("underground mortuary")) {
+      typeStr = "Land";
+    }
+
+    rawCards.push({ 
+      name: name, 
+      count: count, 
+      type: typeStr 
+    });
   });
+
   initGameFromJSON(rawCards);
 }
 
