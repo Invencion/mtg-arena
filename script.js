@@ -198,3 +198,10 @@ document.getElementById('my-life-down').addEventListener('click', () => {
   myLife--;
   lifeDisplay.innerText = myLife;
 });
+
+// İstediğinde sunucuyu uzaktan kapatmak için gizli endpoint
+app.get('/shutdown-arena', (req, res) => {
+  res.send("Masa kapatılıyor, sunucu durduruldu.");
+  console.log("Kullanıcı isteğiyle sunucu kapatıldı.");
+  process.exit(0); // Bu komut Node.js sürecini sonlandırır
+});
