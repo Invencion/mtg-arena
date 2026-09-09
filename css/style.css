@@ -20,8 +20,8 @@ body {
   height: 100vh;
   width: 100vw;
   position: relative;
-  padding: 10px;
-  gap: 10px;
+  padding: 8px;
+  gap: 8px;
 }
 
 /* Phase Bar */
@@ -30,16 +30,16 @@ body {
   justify-content: center;
   gap: 6px;
   background: rgba(15, 18, 24, 0.8);
-  padding: 6px;
+  padding: 4px;
   border-radius: 6px;
   border: 1px solid rgba(197, 160, 89, 0.2);
-  height: 36px;
+  height: 32px;
   flex-shrink: 0;
 }
 
 .phase-step {
-  font-size: 0.65em;
-  padding: 4px 10px;
+  font-size: 0.6em;
+  padding: 3px 8px;
   background: #050608;
   border: 1px solid rgba(197, 160, 89, 0.3);
   color: #888;
@@ -53,14 +53,14 @@ body {
   color: #000;
   font-weight: bold;
   border-color: #ffd700;
-  box-shadow: 0 0 8px rgba(197, 160, 89, 0.5);
+  box-shadow: 0 0 6px rgba(197, 160, 89, 0.5);
 }
 
 /* Opponents Container */
 #opponents-container {
   display: flex;
-  gap: 10px;
-  height: 170px;
+  gap: 8px;
+  height: 160px;
   flex-shrink: 0;
 }
 
@@ -70,8 +70,8 @@ body {
   border: 1px solid rgba(197, 160, 89, 0.2);
   border-radius: 8px;
   display: flex;
-  padding: 8px;
-  gap: 8px;
+  padding: 6px;
+  gap: 6px;
   position: relative;
 }
 
@@ -84,14 +84,14 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
 }
 
 .player-title {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.65em;
+  font-size: 0.6em;
   color: #c5a059;
   font-weight: bold;
 }
@@ -100,7 +100,7 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
 .opp-zone {
@@ -116,16 +116,16 @@ body {
   position: absolute;
   top: 2px;
   left: 4px;
-  font-size: 0.5em;
+  font-size: 0.45em;
   color: #666;
 }
 
 .opp-piles-sidebar {
-  width: 50px;
+  width: 45px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 }
 
 .zoom-btn {
@@ -134,8 +134,8 @@ body {
   color: #c5a059;
   border-radius: 4px;
   cursor: pointer;
-  padding: 4px;
-  font-size: 0.7em;
+  padding: 3px;
+  font-size: 0.6em;
 }
 
 .zoom-btn.active {
@@ -146,19 +146,19 @@ body {
 .opp-piles-grid {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
 .opp-pile {
-  width: 36px;
-  height: 42px;
+  width: 32px;
+  height: 36px;
   background: #111;
   border: 1px solid rgba(197, 160, 89, 0.3);
   border-radius: 3px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.6em;
+  font-size: 0.55em;
   color: #888;
 }
 
@@ -166,7 +166,7 @@ body {
 #main-player-container {
   flex: 1;
   display: flex;
-  gap: 10px;
+  gap: 8px;
   min-height: 0;
 }
 
@@ -174,7 +174,7 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   position: relative;
   min-height: 0;
 }
@@ -183,61 +183,63 @@ body {
 #battlefield-zone {
   flex: 1;
   border: 1px solid rgba(197, 160, 89, 0.3);
-  border-radius: 10px;
+  border-radius: 8px;
   background: linear-gradient(180deg, rgba(15, 18, 24, 0.7) 0%, rgba(8, 10, 14, 0.9) 100%);
   position: relative;
   overflow: hidden;
 }
 
 .land-zone {
-  height: 120px;
+  height: 105px;
   flex-shrink: 0;
   border-color: rgba(40, 140, 60, 0.3);
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
-  gap: 10px;
-  padding: 24px 10px 8px 10px;
+  gap: 8px;
+  padding: 20px 8px 6px 8px;
   background: linear-gradient(180deg, rgba(15, 18, 24, 0.6) 0%, rgba(8, 10, 14, 0.8) 100%);
   position: relative;
   overflow-x: auto;
 }
 
 #player-hand {
-  height: 135px;
+  height: 120px;
   flex-shrink: 0;
   background: rgba(15, 18, 24, 0.5);
   border: 1px solid rgba(197, 160, 89, 0.2);
-  border-radius: 10px;
+  border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  padding: 10px;
+  padding: 8px;
 }
 
-/* Sidebar */
+/* Sidebar - Taşmayı önlemek için tam uyumlu ve esnek yapı */
 #deck-zone {
-  width: 140px;
+  width: 135px;
+  height: 100%;
   flex-shrink: 0;
-  background: rgba(15, 18, 24, 0.8);
+  background: rgba(15, 18, 24, 0.9);
   border: 1px solid rgba(197, 160, 89, 0.3);
-  border-radius: 10px;
-  padding: 8px;
+  border-radius: 8px;
+  padding: 6px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
   align-items: center;
+  overflow: hidden;
 }
 
 .life-counter {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   background: #050608;
   border: 1px solid #c5a059;
-  padding: 4px 8px;
-  border-radius: 6px;
+  padding: 3px 6px;
+  border-radius: 5px;
   flex-shrink: 0;
 }
 
@@ -247,11 +249,11 @@ body {
   color: #c5a059;
   cursor: pointer;
   font-weight: bold;
-  font-size: 0.9em;
+  font-size: 0.8em;
 }
 
 .life-val {
-  font-size: 0.9em;
+  font-size: 0.8em;
   color: #ffd700;
   font-weight: bold;
 }
@@ -259,7 +261,7 @@ body {
 #mana-pool {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 4px;
+  gap: 3px;
   width: 100%;
   flex-shrink: 0;
 }
@@ -269,18 +271,18 @@ body {
   border: 1px solid rgba(197, 160, 89, 0.3);
   border-radius: 4px;
   text-align: center;
-  padding: 3px;
+  padding: 2px;
   cursor: pointer;
 }
 
 .mana-label {
-  font-size: 0.5em;
+  font-size: 0.45em;
   display: block;
   color: #888;
 }
 
 .mana-count {
-  font-size: 0.7em;
+  font-size: 0.65em;
   color: #ffd700;
   font-weight: bold;
 }
@@ -290,43 +292,44 @@ body {
   flex-shrink: 0;
   background: rgba(0,0,0,0.6);
   border: 1px solid rgba(197, 160, 89, 0.3);
-  border-radius: 6px;
-  padding: 5px;
+  border-radius: 5px;
+  padding: 3px;
   text-align: center;
 }
 
 .pile {
   width: 100%;
-  height: 48px;
-  flex-shrink: 0;
+  height: 36px;
+  flex-shrink: 1;
   background: #050608;
   border: 1px solid rgba(197, 160, 89, 0.3);
-  border-radius: 6px;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
-  font-size: 0.6em;
+  font-size: 0.55em;
   color: #aaa;
   cursor: pointer;
+  min-height: 32px;
 }
 
 .pile-count {
-  font-size: 1.1em;
+  font-size: 0.95em;
   color: #ffd700;
   font-weight: bold;
 }
 
 #command-zone {
-  height: 72px;
+  height: 58px;
   border-color: #ffd700;
   flex-shrink: 0;
 }
 
 #commander-card-slot {
-  width: 45px;
-  height: 63px;
+  width: 38px;
+  height: 52px;
   position: relative;
 }
 
@@ -334,8 +337,8 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  width: 45px;
-  height: 63px;
+  width: 38px;
+  height: 52px;
 }
 
 .btn {
@@ -345,9 +348,9 @@ body {
   font-family: inherit;
   font-weight: bold;
   border-radius: 4px;
-  padding: 6px;
+  padding: 4px;
   cursor: pointer;
-  font-size: 0.7em;
+  font-size: 0.6em;
   width: 100%;
   flex-shrink: 0;
 }
