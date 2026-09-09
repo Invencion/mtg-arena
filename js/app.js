@@ -88,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const typeStr = (selectedTutorCard.type || "").toLowerCase();
     selectedTutorCard.isTapped = false;
     selectedTutorCard.isFacedDown = false;
+    selectedTutorCard.rotation = 0;
     selectedTutorCard.x = 50 + Math.random() * 200;
     selectedTutorCard.y = 20 + Math.random() * 100;
     if (typeStr.includes('land')) boardState.lands.push(selectedTutorCard);
@@ -207,7 +208,8 @@ function parseAndInitDeck(text) {
           ...cardObj,
           instanceId: Math.random().toString(36).substr(2, 9),
           isTapped: false,
-          isFacedDown: false
+          isFacedDown: false,
+          rotation: 0
         });
       }
     } else {
@@ -240,7 +242,8 @@ function openSideboardModal() {
         ...card,
         instanceId: Math.random().toString(36).substr(2, 9),
         isTapped: false,
-        isFacedDown: false
+        isFacedDown: false,
+        rotation: 0
       };
       hand.push(cardCopy);
       renderHand();
@@ -420,11 +423,18 @@ let selectedTutorCard = null;
 let manaPool = { C: 0, W: 0, U: 0, B: 0, R: 0, G: 0 };
 let isZPressed = false;
 let currentHoveredCardImgSrc = null;
+let currentHoveredCardInstanceId = null; // Q ve E tuşları için hover takibi
 
 window.addEventListener('keydown', (e) => {
-  if (e.key.toLowerCase() === 'z') {
+  const key = e.key.toLowerCase();
+  if (key === 'z') {
     isZPressed = true;
     if (currentHoveredCardImgSrc) showTtsPopup(currentHoveredCardImgSrc);
+  } else if (key === 'q' || key === 'e') {
+    // Fareyle üzerine gelinen bir kart varsa Q (sola) veya E (sağa) döndür
+    if (currentHoveredCardInstanceId) {
+      rotateCard(currentHoveredCardInstanceId, key === 'e' ? 90 : -90);
+    }
   }
 });
 
@@ -434,6 +444,31 @@ window.addEventListener('keyup', (e) => {
     hideTtsPopup();
   }
 });
+
+function rotateCard(instanceId, angleChange) {
+  let targetCard = null;
+  let isLand = false;
+
+  // Battlefield ve Lands içinde kartı bulalım
+  targetCard = boardState.battlefield.find(c => c.instanceId === instanceId);
+  if (!targetCard) {
+    targetCard = boardState.lands.find(c => c.instanceId === instanceId);
+    if (targetCard) isLand = true;
+  }
+  if (!targetCard && commander && commander.instanceId === instanceId) {
+    targetCard = commander;
+  }
+
+  if (targetCard) {
+    if (targetCard.rotation === undefined) targetCard.rotation = 0;
+    targetCard.rotation = (targetCard.rotation + angleChange) % 360;
+    if (targetCard.rotation < 0) targetCard.rotation += 360;
+
+    renderBoard();
+    renderCommander();
+    socket.emit('board-update', { roomCode, type: 'board-state', boardState });
+  }
+}
 
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -454,7 +489,7 @@ function initGameFromJSON(rawCards) {
   rawCards.forEach(card => {
     const isLegendary = card.type && (card.type.toLowerCase().includes("legendary") || card.type.toLowerCase().includes("legend"));
     if (isLegendary && !commander) {
-      commander = { ...card, instanceId: "commander-card-id", isTapped: false, isFacedDown: false };
+      commander = { ...card, instanceId: "commander-card-id", isTapped: false, isFacedDown: false, rotation: 0 };
     } else {
       const amount = card.count || 1;
       for (let i = 0; i < amount; i++) {
@@ -462,7 +497,8 @@ function initGameFromJSON(rawCards) {
           ...card,
           instanceId: Math.random().toString(36).substr(2, 9),
           isTapped: false,
-          isFacedDown: false
+          isFacedDown: false,
+          rotation: 0
         });
       }
     }
@@ -544,6 +580,10 @@ function createCardElement(card, isOnBoard = false, isLandZone = false) {
   wrapper.classList.add('card-wrapper');
   if (card.isTapped) wrapper.classList.add('tapped');
   
+  if (card.rotation && card.rotation > 0) {
+    wrapper.style.transform = `rotate(${card.rotation}deg)`;
+  }
+  
   wrapper.draggable = true;
   wrapper.dataset.instanceId = card.instanceId;
 
@@ -592,6 +632,7 @@ function createCardElement(card, isOnBoard = false, isLandZone = false) {
   }
 
   wrapper.addEventListener('mouseenter', () => {
+    currentHoveredCardInstanceId = card.instanceId;
     if (!card.isFacedDown) {
       currentHoveredCardImgSrc = img.src;
       if (isZPressed) showTtsPopup(img.src);
@@ -599,6 +640,9 @@ function createCardElement(card, isOnBoard = false, isLandZone = false) {
   });
 
   wrapper.addEventListener('mouseleave', () => {
+    if (currentHoveredCardInstanceId === card.instanceId) {
+      currentHoveredCardInstanceId = null;
+    }
     if (currentHoveredCardImgSrc === img.src) currentHoveredCardImgSrc = null;
     hideTtsPopup();
   });
