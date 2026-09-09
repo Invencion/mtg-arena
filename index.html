@@ -131,6 +131,12 @@
       </div>
     </div>
 
+    <!-- KIRMIZI İLE İŞARETLENEN ALAN (Turn Kontrol Barı) -->
+    <div id="top-turn-control-bar">
+      <div id="turn-status-text" style="font-size: 0.65em; color: #ffd700; font-weight: bold; letter-spacing: 1px;">YOUR TURN</div>
+      <button class="btn" id="end-turn-btn" style="background: linear-gradient(180deg, #d32f2f 0%, #b71c1c 100%); width: 110px; padding: 4px; font-size: 0.65em;">End Turn</button>
+    </div>
+
     <!-- MAIN PLAYER AREA (BOTTOM) -->
     <div id="main-player-container">
       <div id="play-field">
@@ -143,7 +149,19 @@
         <div id="player-hand"></div>
       </div>
 
-      <!-- SIDEBAR -->
+      <!-- MAVİ İLE İŞARETLENEN ALAN (Aksiyon Butonları Toolbar'ı) -->
+      <div id="floating-action-toolbar">
+        <div style="display: flex; gap: 4px; width: 100%;">
+          <button class="btn btn-draw" id="draw-btn" style="width: 50%;">Draw</button>
+          <button class="btn btn-untap" id="untap-all-btn" style="width: 50%;">Untap</button>
+        </div>
+        <div style="display: flex; gap: 4px; width: 100%;">
+          <button class="btn" id="search-lib-btn" style="background: linear-gradient(180deg, #7b1fa2 0%, #4a148c 100%); width: 50%;">Search</button>
+          <button class="btn" id="shuffle-btn" style="width: 50%;">Shuffle</button>
+        </div>
+      </div>
+
+      <!-- SAĞ SIDEBAR (Saf Zonelar ve Tam Boy Commander Kulesi) -->
       <div id="deck-zone">
         <div class="life-counter" style="margin-bottom: 2px;">
           <button class="life-btn" id="my-life-down">-</button>
@@ -151,17 +169,12 @@
           <button class="life-btn" id="my-life-up">+</button>
         </div>
 
-        <div id="turn-control-box" style="width: 100%; background: rgba(0,0,0,0.6); border: 1px solid rgba(197, 160, 89, 0.3); border-radius: 5px; padding: 2px; text-align: center;">
-          <div id="turn-status-text" style="font-size: 0.5em; color: #ffd700; margin-bottom: 1px; font-weight: bold;">YOUR TURN</div>
-          <button class="btn" id="end-turn-btn" style="background: linear-gradient(180deg, #d32f2f 0%, #b71c1c 100%); width: 100%; font-size: 0.55em; padding: 2px;">End Turn</button>
-        </div>
-
         <div class="pile" id="command-zone">
           <span style="font-size:0.55em; margin-bottom: 2px;">COMMAND</span>
           <div id="commander-card-slot"></div>
         </div>
 
-        <div class="pile" id="sideboard-pile" style="cursor: pointer; background: rgba(123, 31, 162, 0.2); border-color: #7b1fa2;">
+        <div class="pile" id="sideboard-pile" style="cursor: pointer; background: rgba(123, 31, 162, 0.15); border-color: #7b1fa2;">
           <span style="font-size: 0.5em;">SIDEBOARD</span>
           <span class="pile-count" id="sideboard-count">0</span>
         </div>
@@ -179,15 +192,6 @@
         <div class="pile" id="deck-pile">
           <span style="font-size: 0.5em;">DECK</span>
           <span class="pile-count" id="deck-count">99</span>
-        </div>
-
-        <div style="display: flex; gap: 3px; width: 100%;">
-          <button class="btn btn-draw" id="draw-btn" style="width: 50%; padding: 4px;">Draw</button>
-          <button class="btn btn-untap" id="untap-all-btn" style="width: 50%; padding: 4px;">Untap</button>
-        </div>
-        <div style="display: flex; gap: 3px; width: 100%;">
-          <button class="btn" id="search-lib-btn" style="background: linear-gradient(180deg, #7b1fa2 0%, #4a148c 100%); width: 50%; padding: 4px;">Search</button>
-          <button class="btn" id="shuffle-btn" style="width: 50%; padding: 4px;">Shuffle</button>
         </div>
       </div>
     </div>
