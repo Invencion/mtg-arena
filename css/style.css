@@ -561,3 +561,41 @@ body {
   border-color: #ef5350;
   color: #ef5350;
 }
+
+/* Battlefield Alanı - Serbest Konumlandırma İçin Pozisyonlama */
+#battlefield-zone {
+  height: 280px;
+  border: 1px solid rgba(197, 160, 89, 0.3);
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(15, 18, 24, 0.7) 0%, rgba(8, 10, 14, 0.9) 100%);
+  position: relative;
+  overflow: hidden;
+  z-index: 3;
+}
+
+.land-zone {
+  height: 130px;
+  border-color: rgba(40, 140, 60, 0.3);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 24px 10px 8px 10px;
+  background: linear-gradient(180deg, rgba(15, 18, 24, 0.6) 0%, rgba(8, 10, 14, 0.8) 100%);
+  position: relative;
+  overflow-x: auto;
+  z-index: 2;
+}
+
+/* Battlefield içindeki serbest kart konumlandırma stili */
+#battlefield-zone .card-wrapper {
+  position: absolute;
+  width: 110px;
+  height: 154px;
+  cursor: grab;
+}
+
+#battlefield-zone .card-wrapper.dragging {
+  cursor: grabbing;
+  opacity: 0.5;
+}
