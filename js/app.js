@@ -21,11 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
       socket.emit('join-room', { roomCode, username: myNickname });
 
       try {
-        const response = await fetch('cards.json');[cite: 5, 6, 7]
-        const rawCards = await response.json();[cite: 6, 7]
-        initGameFromJSON(rawCards);[cite: 7]
+        const response = await fetch('cards.json');
+        const rawCards = await response.json();
+        initGameFromJSON(rawCards);
       } catch (error) {
-        console.error("Failed to load cards.json:", error);[cite: 6, 7]
+        console.error("Failed to load cards.json:", error);
       }
     });
   }
@@ -341,14 +341,14 @@ function initGameFromJSON(rawCards) {
   clearManaPool();
 
   rawCards.forEach(card => {
-    const isLegendary = card.type && card.type.toLowerCase().includes("legendary");[cite: 6, 7]
-    if (isLegendary && !commander) {[cite: 6, 7]
-      commander = { ...card, instanceId: "commander-card-id", isTapped: false, isFacedDown: false };[cite: 6, 7]
+    const isLegendary = card.type && card.type.toLowerCase().includes("legendary");
+    if (isLegendary && !commander) {
+      commander = { ...card, instanceId: "commander-card-id", isTapped: false, isFacedDown: false };
     } else {
-      const amount = card.count || 1;[cite: 6, 7]
-      for (let i = 0; i < amount; i++) {[cite: 6, 7]
-        deck.push({[cite: 6, 7]
-          ...card,[cite: 6, 7]
+      const amount = card.count || 1;
+      for (let i = 0; i < amount; i++) {
+        deck.push({
+          ...card,
           instanceId: Math.random().toString(36).substr(2, 9),
           isTapped: false,
           isFacedDown: false
@@ -451,7 +451,7 @@ function createCardElement(card, isOnBoard = false, isLandZone = false) {
   if (card.isFacedDown) {
     img.src = 'https://cards.scryfall.io/back.png';
   } else {
-    const cleanName = (card.name || "Forest").split('//')[0].trim();[cite: 6, 7]
+    const cleanName = (card.name || "Forest").split('//')[0].trim();
     img.src = `https://api.scryfall.com/cards/named?exact=${encodeURIComponent(cleanName)}&format=image`;
   }
 
@@ -587,11 +587,11 @@ function handleCardDrop(instanceId, targetZoneId) {
     foundCard.isTapped = false;
     foundCard.isFacedDown = false;
     
-    if (targetZoneId === 'land-zone') {[cite: 5, 7]
+    if (targetZoneId === 'land-zone') {
       targetState.lands.push(foundCard);
-    } else if (targetZoneId === 'creature-zone') {[cite: 5, 7]
+    } else if (targetZoneId === 'creature-zone') {
       targetState.creatures.push(foundCard);
-    } else if (targetZoneId === 'noncreature-zone') {[cite: 5, 7]
+    } else if (targetZoneId === 'noncreature-zone') {
       targetState.noncreatures.push(foundCard);
     }
   } else if (targetZoneId === 'player-hand') {
@@ -696,7 +696,7 @@ function renderMiniZone(zoneEl, cardArray) {
     if (card.isTapped) miniCard.classList.add('tapped');
     const img = document.createElement('img');
     img.classList.add('card-image');
-    img.src = card.isFacedDown ? 'https://cards.scryfall.io/back.png' : `https://api.scryfall.com/cards/named?exact=${encodeURIComponent((card.name || "Forest").split('//')[0].trim())}&format=image`;[cite: 6, 7]
+    img.src = card.isFacedDown ? 'https://cards.scryfall.io/back.png' : `https://api.scryfall.com/cards/named?exact=${encodeURIComponent((card.name || "Forest").split('//')[0].trim())}&format=image`;
     miniCard.appendChild(img);
     zoneEl.appendChild(miniCard);
   });
@@ -762,7 +762,7 @@ function filterLibraryCards() {
   const selectedType = libraryTypeFilter.value;
   const filtered = deck.filter(card => {
     const matchesName = card.name.toLowerCase().includes(term);
-    const cardType = (card.type || "").toLowerCase();[cite: 6, 7]
+    const cardType = (card.type || "").toLowerCase();
     const matchesType = (selectedType === 'all') || cardType.includes(selectedType);
     return matchesName && matchesType;
   });
