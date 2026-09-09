@@ -6,26 +6,27 @@ let myPlayerSlot = 1;
 let isMyTurn = true;
 let myNickname = "Player";
 
-// DOM Yüklendiğinde Giriş Ekranı ve Buton Dinleyicilerini Kurma
 document.addEventListener('DOMContentLoaded', () => {
   const welcomeModal = document.getElementById('welcome-modal');
   const joinBtn = document.getElementById('join-table-btn');
   const nicknameInput = document.getElementById('player-nickname-input');
-  const decklistInput = document.getElementById('decklist-input');
 
   if (joinBtn) {
-    joinBtn.addEventListener('click', () => {
+    joinBtn.addEventListener('click', async () => {
       const nameVal = nicknameInput.value.trim();
       if (nameVal) myNickname = nameVal;
-
-      const rawDeckText = decklistInput ? decklistInput.value : "";
-      const customDeck = parseCustomDecklist(rawDeckText);
 
       welcomeModal.style.display = 'none';
 
       socket.emit('join-room', { roomCode, username: myNickname });
 
-      initGameWithCustom(customDeck);
+      try {
+        const response = await fetch('cards.json');
+        const rawCards = await response.json();
+        initGameFromJSON(rawCards);
+      } catch (error) {
+        console.error("Failed to load cards.json:", error);
+      }
     });
   }
 
@@ -128,7 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (shuffleBtn) shuffleBtn.addEventListener('click', () => { shuffle(deck); alert("Library shuffled!"); });
 });
 
-// Güncellenmiş Sayaç (+3/+3 formatlı) Üretme ve Yönetme Fonksiyonu
 function spawnCounter(type) {
   const arenaFrame = document.getElementById('arena-frame');
   if (!arenaFrame) return;
@@ -147,14 +147,12 @@ function spawnCounter(type) {
 
   updateCounterDisplay();
 
-  // Sol tık: Değeri 1 artırır (+1/+1 -> +2/+2 -> +3/+3)
   counter.addEventListener('click', (e) => {
     e.stopPropagation();
     counterValue++;
     updateCounterDisplay();
   });
 
-  // Sağ tık: Değeri 1 azaltır, 0 veya altına inerse sayacı siler
   counter.addEventListener('contextmenu', (e) => {
     e.preventDefault();
     counterValue--;
@@ -165,7 +163,6 @@ function spawnCounter(type) {
     }
   });
 
-  // Çift tık: Direkt sayı girmeyi sağlar (örn: 5 yazıldığında +5/+5 olur)
   counter.addEventListener('dblclick', (e) => {
     e.stopPropagation();
     const inputVal = prompt("Enter counter value (e.g. 5):", counterValue);
@@ -218,40 +215,6 @@ function spawnCounter(type) {
   arenaFrame.appendChild(counter);
 }
 
-// Deste Ayrıştırma (Parser) Fonksiyonu
-function parseCustomDecklist(text) {
-  const lines = text.split('\n');
-  const cards = [];
-  let commander = null;
-  let isFirstCard = true;
-
-  lines.forEach((line) => {
-    line = line.trim();
-    if (!line) return;
-
-    let cleanLine = line
-      .replace(/^\d+\s+/, '')
-      .replace(/\s*\([A-Za-z0-9]+\).*$/, '')
-      .replace(/\s*\*F\*/g, '')
-      .trim();
-
-    if (!cleanLine) return;
-
-    const countMatch = line.match(/^(\d+)/);
-    const count = countMatch ? parseInt(countMatch[1]) : 1;
-
-    if (isFirstCard) {
-      commander = { name: cleanLine, type: "Legendary Creature — Commander" };
-      isFirstCard = false;
-    } else {
-      cards.push({ name: cleanLine, type: "Card", count: count });
-    }
-  });
-
-  return { commander, cards };
-}
-
-// Socket Dinleyicileri
 socket.on('init-room-state', (data) => {
   myPlayerSlot = data.slot;
   isMyTurn = data.isMyTurn;
@@ -368,38 +331,29 @@ function shuffle(array) {
   }
 }
 
-function initGameWithCustom(deckConfig) {
-  const commanderCard = deckConfig.commander;
-  const deckList = deckConfig.cards;
-  
+function initGameFromJSON(rawCards) {
   deck = [];
   hand = [];
   boardState = { creatures: [], noncreatures: [], lands: [] };
-  
-  Object.keys(opponentBoards).forEach(oppId => {
-    opponentBoards[oppId] = { creatures: [], noncreatures: [], lands: [] };
-  });
-
+  commander = null;
   graveyard = [];
   exile = [];
   clearManaPool();
 
-  commander = { 
-    ...commanderCard, 
-    instanceId: "commander-card-id", 
-    isTapped: false, 
-    isFacedDown: false 
-  };
-
-  deckList.forEach(card => {
-    for (let i = 0; i < card.count; i++) {
-      deck.push({ 
-        name: card.name,
-        type: card.type,
-        instanceId: Math.random().toString(36).substr(2, 9),
-        isTapped: false,
-        isFacedDown: false 
-      });
+  rawCards.forEach(card => {
+    const isLegendary = card.type && card.type.toLowerCase().includes("legendary");
+    if (isLegendary && !commander) {
+      commander = { ...card, instanceId: "commander-card-id", isTapped: false, isFacedDown: false };
+    } else {
+      const amount = card.count || 1;
+      for (let i = 0; i < amount; i++) {
+        deck.push({
+          ...card,
+          instanceId: Math.random().toString(36).substr(2, 9),
+          isTapped: false,
+          isFacedDown: false
+        });
+      }
     }
   });
 
@@ -621,16 +575,14 @@ function handleCardDrop(instanceId, targetZoneId) {
   } else if (targetZoneId === 'command-zone') {
     foundCard.isTapped = false; foundCard.isFacedDown = false; commander = foundCard; renderCommander();
   } else if (isFieldZone) {
-    const typeStr = (foundCard.type || "").toLowerCase();
-    foundCard.isTapped = false; 
+    foundCard.isTapped = false;
     foundCard.isFacedDown = false;
     
-    // DÜZELTME: Sürükleyip bırakılan kartın tipine göre doğru alana yerleştirme
-    if (typeStr.includes('land')) {
+    if (targetZoneId === 'land-zone') {
       targetState.lands.push(foundCard);
-    } else if (typeStr.includes('creature')) {
+    } else if (targetZoneId === 'creature-zone') {
       targetState.creatures.push(foundCard);
-    } else {
+    } else if (targetZoneId === 'noncreature-zone') {
       targetState.noncreatures.push(foundCard);
     }
   } else if (targetZoneId === 'player-hand') {
