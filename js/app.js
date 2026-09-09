@@ -7,6 +7,7 @@ let isMyTurn = true;
 let myNickname = "Player";
 
 let activeContextCard = null;
+let lastHoveredCard = null; // Q ve E tuşları için en son hover edilen kart
 
 document.addEventListener('DOMContentLoaded', () => {
   const welcomeModal = document.getElementById('welcome-modal');
@@ -44,6 +45,35 @@ document.addEventListener('DOMContentLoaded', () => {
     if (ctxMenu) ctxMenu.style.display = 'none';
   });
 
+  // Q ve E ile kart döndürme (Rotation) işlevi
+  window.addEventListener('keydown', (e) => {
+    const key = e.key.toLowerCase();
+    
+    // Z tuşu önizleme
+    if (key === 'z') {
+      isZPressed = true;
+      if (currentHoveredCardImgSrc) showTtsPopup(currentHoveredCardImgSrc);
+    }
+
+    // Q veya E tuşu ile kartı döndürme
+    if ((key === 'q' || key === 'e') && lastHoveredCard) {
+      if (!lastHoveredCard.rotation) lastHoveredCard.rotation = 0;
+      if (key === 'q') lastHoveredCard.rotation -= 90;
+      if (key === 'e') lastHoveredCard.rotation += 90;
+
+      renderBoard();
+      renderCommander();
+      renderHand();
+    }
+  });
+
+  window.addEventListener('keyup', (e) => {
+    if (e.key.toLowerCase() === 'z') {
+      isZPressed = false;
+      hideTtsPopup();
+    }
+  });
+
   // Sağ tık menü butonları işlevleri
   document.getElementById('ctx-tap').addEventListener('click', () => {
     if (!activeContextCard) return;
@@ -64,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
     removeCardGlobally(activeContextCard.instanceId);
     activeContextCard.isTapped = false;
     activeContextCard.isFacedDown = false;
+    activeContextCard.rotation = 0;
     graveyard.push(activeContextCard);
     
     renderBoard();
@@ -72,12 +103,12 @@ document.addEventListener('DOMContentLoaded', () => {
     updatePilesUI();
   });
 
-  // Yeni eklenen Send to Exile işlevi
   document.getElementById('ctx-exile').addEventListener('click', () => {
     if (!activeContextCard) return;
     removeCardGlobally(activeContextCard.instanceId);
     activeContextCard.isTapped = false;
     activeContextCard.isFacedDown = false;
+    activeContextCard.rotation = 0;
     exile.push(activeContextCard);
     
     renderBoard();
@@ -136,6 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const typeStr = (selectedTutorCard.type || "").toLowerCase();
     selectedTutorCard.isTapped = false;
     selectedTutorCard.isFacedDown = false;
+    selectedTutorCard.rotation = 0;
     selectedTutorCard.x = 50 + Math.random() * 200;
     selectedTutorCard.y = 20 + Math.random() * 100;
     if (typeStr.includes('land')) boardState.lands.push(selectedTutorCard);
@@ -255,7 +287,8 @@ function parseAndInitDeck(text) {
           ...cardObj,
           instanceId: Math.random().toString(36).substr(2, 9),
           isTapped: false,
-          isFacedDown: false
+          isFacedDown: false,
+          rotation: 0
         });
       }
     } else {
@@ -288,7 +321,8 @@ function openSideboardModal() {
         ...card,
         instanceId: Math.random().toString(36).substr(2, 9),
         isTapped: false,
-        isFacedDown: false
+        isFacedDown: false,
+        rotation: 0
       };
       hand.push(cardCopy);
       renderHand();
@@ -480,20 +514,6 @@ let selectedTutorCard = null;
 let isZPressed = false;
 let currentHoveredCardImgSrc = null;
 
-window.addEventListener('keydown', (e) => {
-  if (e.key.toLowerCase() === 'z') {
-    isZPressed = true;
-    if (currentHoveredCardImgSrc) showTtsPopup(currentHoveredCardImgSrc);
-  }
-});
-
-window.addEventListener('keyup', (e) => {
-  if (e.key.toLowerCase() === 'z') {
-    isZPressed = false;
-    hideTtsPopup();
-  }
-});
-
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -512,7 +532,7 @@ function initGameFromJSON(rawCards) {
   rawCards.forEach(card => {
     const isLegendary = card.type && (card.type.toLowerCase().includes("legendary") || card.type.toLowerCase().includes("legend"));
     if (isLegendary && !commander) {
-      commander = { ...card, instanceId: "commander-card-id", isTapped: false, isFacedDown: false };
+      commander = { ...card, instanceId: "commander-card-id", isTapped: false, isFacedDown: false, rotation: 0 };
     } else {
       const amount = card.count || 1;
       for (let i = 0; i < amount; i++) {
@@ -520,7 +540,8 @@ function initGameFromJSON(rawCards) {
           ...card,
           instanceId: Math.random().toString(36).substr(2, 9),
           isTapped: false,
-          isFacedDown: false
+          isFacedDown: false,
+          rotation: 0
         });
       }
     }
@@ -557,7 +578,12 @@ function hideTtsPopup() {
 function createCardElement(card, isOnBoard = false, isLandZone = false) {
   const wrapper = document.createElement('div');
   wrapper.classList.add('card-wrapper');
-  if (card.isTapped) wrapper.classList.add('tapped');
+  
+  let totalRotation = card.rotation || 0;
+  if (card.isTapped) totalRotation += 90;
+  if (totalRotation !== 0) {
+    wrapper.style.transform = `rotate(${totalRotation}deg)`;
+  }
   
   wrapper.draggable = true;
   wrapper.dataset.instanceId = card.instanceId;
@@ -603,6 +629,7 @@ function createCardElement(card, isOnBoard = false, isLandZone = false) {
   });
 
   wrapper.addEventListener('mouseenter', () => {
+    lastHoveredCard = card; // Q ve E ile döndürmek için hedef kartı kaydet
     if (!card.isFacedDown) {
       currentHoveredCardImgSrc = img.src;
       if (isZPressed) showTtsPopup(img.src);
@@ -698,11 +725,11 @@ function handleCardDrop(instanceId, targetZoneId, dropX = 20, dropY = 20) {
   const targetState = activeZoomBoardId ? opponentBoards[activeZoomBoardId] : boardState;
 
   if (targetZoneId === 'graveyard-pile') {
-    foundCard.isTapped = false; foundCard.isFacedDown = false; graveyard.push(foundCard);
+    foundCard.isTapped = false; foundCard.isFacedDown = false; foundCard.rotation = 0; graveyard.push(foundCard);
   } else if (targetZoneId === 'exile-pile') {
-    foundCard.isTapped = false; foundCard.isFacedDown = false; exile.push(foundCard);
+    foundCard.isTapped = false; foundCard.isFacedDown = false; foundCard.rotation = 0; exile.push(foundCard);
   } else if (targetZoneId === 'command-zone') {
-    foundCard.isTapped = false; foundCard.isFacedDown = false; commander = foundCard; renderCommander();
+    foundCard.isTapped = false; foundCard.isFacedDown = false; foundCard.rotation = 0; commander = foundCard; renderCommander();
   } else if (targetZoneId === 'battlefield-zone') {
     foundCard.isTapped = false;
     foundCard.isFacedDown = false;
@@ -714,7 +741,7 @@ function handleCardDrop(instanceId, targetZoneId, dropX = 20, dropY = 20) {
     foundCard.isFacedDown = false;
     targetState.lands.push(foundCard);
   } else if (targetZoneId === 'player-hand') {
-    foundCard.isTapped = false; foundCard.isFacedDown = false; hand.push(foundCard);
+    foundCard.isTapped = false; foundCard.isFacedDown = false; foundCard.rotation = 0; hand.push(foundCard);
   }
 
   renderHand();
@@ -730,13 +757,13 @@ function untapAllCards() {
   const activeState = activeZoomBoardId ? opponentBoards[activeZoomBoardId] : boardState;
   activeState.battlefield.forEach(c => c.isTapped = false);
   activeState.lands.forEach(c => c.isTapped = false);
-  document.querySelectorAll('.field-zone .card-wrapper.tapped, #battlefield-zone .card-wrapper.tapped').forEach(el => el.classList.remove('tapped'));
+  renderBoard();
 }
 
 function renderCommander() {
   const slot = document.getElementById('commander-card-slot');
   if (!slot) return;
-  slot.innerHTML = '<span style="font-size:0.55em; position:absolute; top:2px; left:4px; color:#ffd700; z-index:5;">COMMAND</span>';
+  slot.innerHTML = '';
   if (commander) slot.appendChild(createCardElement(commander, false));
 }
 
