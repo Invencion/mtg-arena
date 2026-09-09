@@ -7,7 +7,6 @@ let isMyTurn = true;
 let myNickname = "Player";
 
 let activeContextCard = null;
-let activeContextCardRef = null; // Hangi diziye ait olduğunu bilmek için
 
 document.addEventListener('DOMContentLoaded', () => {
   const welcomeModal = document.getElementById('welcome-modal');
@@ -62,11 +61,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('ctx-graveyard').addEventListener('click', () => {
     if (!activeContextCard) return;
-    // Kartı mevcut olduğu yerden çıkarıp mezarlığa atalım
     removeCardGlobally(activeContextCard.instanceId);
     activeContextCard.isTapped = false;
     activeContextCard.isFacedDown = false;
     graveyard.push(activeContextCard);
+    
+    renderBoard();
+    renderCommander();
+    renderHand();
+    updatePilesUI();
+  });
+
+  // Yeni eklenen Send to Exile işlevi
+  document.getElementById('ctx-exile').addEventListener('click', () => {
+    if (!activeContextCard) return;
+    removeCardGlobally(activeContextCard.instanceId);
+    activeContextCard.isTapped = false;
+    activeContextCard.isFacedDown = false;
+    exile.push(activeContextCard);
     
     renderBoard();
     renderCommander();
@@ -579,8 +591,6 @@ function createCardElement(card, isOnBoard = false, isLandZone = false) {
 
   wrapper.appendChild(img);
 
-  // Sol tık işlevini kaldırıyoruz, sadece sürükleme veya sağ tık kalıyor.
-  // Sağ tık menüsü açma:
   wrapper.addEventListener('contextmenu', (e) => {
     e.preventDefault();
     activeContextCard = card;
@@ -726,7 +736,7 @@ function untapAllCards() {
 function renderCommander() {
   const slot = document.getElementById('commander-card-slot');
   if (!slot) return;
-  slot.innerHTML = '<span style="font-size:0.6em; position:absolute; top:2px; left:4px; color:#ffd700; z-index:5;">COMMAND</span>';
+  slot.innerHTML = '<span style="font-size:0.55em; position:absolute; top:2px; left:4px; color:#ffd700; z-index:5;">COMMAND</span>';
   if (commander) slot.appendChild(createCardElement(commander, false));
 }
 
