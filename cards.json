@@ -1,0 +1,778 @@
+[
+  {
+    "id": "dina_essence_brewer",
+    "name": "Dina, Essence Brewer",
+    "cost": "1BG",
+    "type": "Legendary Creature — Dryad Druid",
+    "stats": { "attack": 2, "health": 3 },
+    "abilityText": "Whenever you sacrifice a creature, draw a card. This ability triggers only once each turn. 2, Tap, Sacrifice another creature: You gain X life and put X +1/+1 counters on target creature you control, where X is the sacrificed creature's power.",
+    "isFoil": true,
+    "count": 1
+  },
+  {
+    "id": "arcane_signet",
+    "name": "Arcane Signet",
+    "cost": "2",
+    "type": "Artifact",
+    "stats": null,
+    "abilityText": "Tap: Add one mana of any color in your commander's color identity.",
+    "count": 1
+  },
+  {
+    "id": "assassins_trophy",
+    "name": "Assassin's Trophy",
+    "cost": "BG",
+    "type": "Instant",
+    "stats": null,
+    "abilityText": "Destroy target permanent an opponent controls. Its controller may search their library for a basic land card, put it onto the battlefield, then shuffle.",
+    "count": 1
+  },
+  {
+    "id": "awakening_zone",
+    "name": "Awakening Zone",
+    "cost": "2G",
+    "type": "Enchantment",
+    "stats": null,
+    "abilityText": "At the beginning of your upkeep, you may create a 0/1 colorless Eldrazi Spawn creature token. It has 'Sacrifice this creature: Add C.'",
+    "count": 1
+  },
+  {
+    "id": "beledros_witherbloom",
+    "name": "Beledros Witherbloom",
+    "cost": "5BG",
+    "type": "Legendary Creature — Elder Dragon",
+    "stats": { "attack": 4, "health": 4 },
+    "abilityText": "Flying. At the beginning of each upkeep, create a 1/1 black and green Pest creature token with 'When this creature dies, you gain 1 life.' Pay 10 life: Untap all lands you control. Activate only once each turn.",
+    "count": 1
+  },
+  {
+    "id": "blight_mound",
+    "name": "Blight Mound",
+    "cost": "1B",
+    "type": "Enchantment",
+    "stats": null,
+    "abilityText": "Whenever a nontoken creature you control dies, create a 1/1 black and green Pest creature token with 'When this creature dies, you gain 1 life.' Pests you control get +1/+0.",
+    "count": 1
+  },
+  {
+    "id": "blood_artist",
+    "name": "Blood Artist",
+    "cost": "1B",
+    "type": "Creature — Vampire",
+    "stats": { "attack": 0, "health": 1 },
+    "abilityText": "Whenever Blood Artist or another creature dies, target player loses 1 life and you gain 1 life.",
+    "count": 1
+  },
+  {
+    "id": "bloodghast",
+    "name": "Bloodghast",
+    "cost": "BB",
+    "type": "Creature — Vampire Spirit",
+    "stats": { "attack": 2, "health": 1 },
+    "abilityText": "Bloodghast can't block. Bloodghast has haste as long as an opponent has 10 or less life. Landfall — Whenever a land enters the battlefield under your control, you may return Bloodghast from your graveyard to the battlefield.",
+    "count": 1
+  },
+  {
+    "id": "blossoming_bogbeast",
+    "name": "Blossoming Bogbeast",
+    "cost": "4G",
+    "type": "Creature — Beast",
+    "stats": { "attack": 3, "health": 3 },
+    "abilityText": "Forrestwalk. Whenever Blossoming Bogbeast attacks, you gain 2 life. Then creatures you control gain trample and get +X/+X until end of turn, where X is the amount of life you gained this turn.",
+    "count": 1
+  },
+  {
+    "id": "bojuka_bog",
+    "name": "Bojuka Bog",
+    "cost": "0",
+    "type": "Land",
+    "stats": null,
+    "abilityText": "Bojuka Bog enters the battlefield tapped. When Bojuka Bog enters the battlefield, exile target player's graveyard. Tap: Add B.",
+    "count": 1
+  },
+  {
+    "id": "casualties_of_war",
+    "name": "Casualties of War",
+    "cost": "2BBGG",
+    "type": "Sorcery",
+    "stats": null,
+    "abilityText": "Choose one or more — Destroy target artifact; Destroy target creature; Destroy target enchantment; Destroy target land; Destroy target planeswalker.",
+    "count": 1
+  },
+  {
+    "id": "command_tower",
+    "name": "Command Tower",
+    "cost": "0",
+    "type": "Land",
+    "stats": null,
+    "abilityText": "Tap: Add one mana of any color in your commander's color identity.",
+    "count": 1
+  },
+  {
+    "id": "creakwood_liege",
+    "name": "Creakwood Liege",
+    "cost": "1(B/G)(B/G)(B/G)",
+    "type": "Creature — Horror",
+    "stats": { "attack": 2, "health": 2 },
+    "abilityText": "Other black creatures you control get +1/+1. Other green creatures you control get +1/+1. At the beginning of your upkeep, you may create a 1/1 black and green Worm creature token.",
+    "count": 1
+  },
+  {
+    "id": "culling_ritual",
+    "name": "Culling Ritual",
+    "cost": "2BG",
+    "type": "Sorcery",
+    "stats": null,
+    "abilityText": "Destroy all nonland permanents with mana value 2 or less. Add BG for each permanent destroyed this way.",
+    "count": 1
+  },
+  {
+    "id": "cultivate",
+    "name": "Cultivate",
+    "cost": "2G",
+    "type": "Sorcery",
+    "stats": null,
+    "abilityText": "Search your library for up to two basic land cards, reveal them, put one onto the battlefield tapped and the other into your hand, then shuffle.",
+    "count": 1
+  },
+  {
+    "id": "deadly_brew",
+    "name": "Deadly Brew",
+    "cost": "BG",
+    "type": "Sorcery",
+    "stats": null,
+    "abilityText": "Each player sacrifices a creature or planeswalker. If a permanent was sacrificed this way, you may return a permanent card from your graveyard to your hand.",
+    "count": 1
+  },
+  {
+    "id": "defiling_daemogoth",
+    "name": "Defiling Daemogoth",
+    "cost": "3BG",
+    "type": "Creature — Fiend",
+    "stats": { "attack": 6, "health": 6 },
+    "abilityText": "Whenever Defiling Daemogoth attacks or blocks, sacrifice a creature or planeswalker.",
+    "count": 1
+  },
+  {
+    "id": "dina_soul_steeper",
+    "name": "Dina, Soul Steeper",
+    "cost": "BG",
+    "type": "Legendary Creature — Dryad Druid",
+    "stats": { "attack": 1, "health": 3 },
+    "abilityText": "Whenever you gain life, each opponent loses 1 life. 2, Sacrifice a creature: Target creature gets +X/+0 until end of turn, where X is the sacrificed creature's power.",
+    "count": 1
+  },
+  {
+    "id": "eccentric_pestfinder_turn_stones",
+    "name": "Eccentric Pestfinder // Turn Stones",
+    "cost": "1G",
+    "type": "Creature — Human Druid // Sorcery",
+    "stats": { "attack": 1, "health": 2 },
+    "abilityText": "When Eccentric Pestfinder enters, mill two cards, then you may return a land card from your graveyard to your hand.",
+    "count": 1
+  },
+  {
+    "id": "elvish_mystic",
+    "name": "Elvish Mystic",
+    "cost": "G",
+    "type": "Creature — Elf Druid",
+    "stats": { "attack": 1, "health": 1 },
+    "abilityText": "Tap: Add G.",
+    "count": 1
+  },
+  {
+    "id": "exotic_orchard",
+    "name": "Exotic Orchard",
+    "cost": "0",
+    "type": "Land",
+    "stats": null,
+    "abilityText": "Tap: Add one mana of any color that a land an opponent controls could produce.",
+    "count": 1
+  },
+  {
+    "id": "fabled_passage",
+    "name": "Fabled Passage",
+    "cost": "0",
+    "type": "Land",
+    "stats": null,
+    "abilityText": "Tap, Sacrifice Fabled Passage: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle. Then if you control four or more lands, untap that land.",
+    "count": 1
+  },
+  {
+    "id": "feral_appetite",
+    "name": "Feral Appetite",
+    "cost": "G",
+    "type": "Enchantment — Aura",
+    "stats": null,
+    "abilityText": "Enchant creature. Enchanted creature gets +1/+1 and has 'When this creature dies, you gain 2 life.'",
+    "count": 1
+  },
+  {
+    "id": "festering_thicket",
+    "name": "Festering Thicket",
+    "cost": "0",
+    "type": "Land",
+    "stats": null,
+    "abilityText": "Festering Thicket enters the battlefield tapped unless you control two or more other lands. Tap: Add B or G.",
+    "count": 1
+  },
+  {
+    "id": "final_act",
+    "name": "Final Act",
+    "cost": "3BB",
+    "type": "Sorcery",
+    "stats": null,
+    "abilityText": "Choose one or more — Destroy all creatures; Destroy all planeswalkers; Exile all graveyards; Destroy all battles.",
+    "count": 1
+  },
+  {
+    "id": "forest",
+    "name": "Forest",
+    "cost": "0",
+    "type": "Basic Land — Forest",
+    "stats": null,
+    "abilityText": "Tap: Add G.",
+    "count": 8
+  },
+  {
+    "id": "gilded_goose",
+    "name": "Gilded Goose",
+    "cost": "G",
+    "type": "Creature — Bird",
+    "stats": { "attack": 0, "health": 2 },
+    "abilityText": "Flying. When Gilded Goose enters the battlefield, create a Food token. 1, Tap, Sacrifice a Food: Add one mana of any color. 2, Tap: Create a Food token.",
+    "count": 1
+  },
+  {
+    "id": "gorma_the_gullet",
+    "name": "Gorma, the Gullet",
+    "cost": "1BG",
+    "type": "Legendary Creature — Pest Frog",
+    "stats": { "attack": 1, "health": 1 },
+    "abilityText": "Lifelink. Whenever another creature you control dies, put a +1/+1 counter on Gorma. Nontoken creatures you control enter with an additional +1/+1 counter on them for each creature that died under your control this turn.",
+    "isFoil": true,
+    "count": 1
+  },
+  {
+    "id": "grim_backwoods",
+    "name": "Grim Backwoods",
+    "cost": "0",
+    "type": "Land",
+    "stats": null,
+    "abilityText": "Tap: Add C. 2BG, Tap, Sacrifice a creature: Draw a card.",
+    "count": 1
+  },
+  {
+    "id": "gyome_master_chef",
+    "name": "Gyome, Master Chef",
+    "cost": "2BG",
+    "type": "Legendary Creature — Troll Warlock",
+    "stats": { "attack": 5, "health": 3 },
+    "abilityText": "At the beginning of your end step, create a number of Food tokens equal to the number of non-Food permanents that entered the battlefield under your control this turn. 1, Sacrifice a Food: Target creature gains indestructible until end of turn. Tap it.",
+    "count": 1
+  },
+  {
+    "id": "haunted_mire",
+    "name": "Haunted Mire",
+    "cost": "0",
+    "type": "Land — Swamp Forest",
+    "stats": null,
+    "abilityText": "Haunted Mire enters the battlefield tapped.",
+    "count": 1
+  },
+  {
+    "id": "haywire_mite",
+    "name": "Haywire Mite",
+    "cost": "1",
+    "type": "Artifact Creature — Insect",
+    "stats": { "attack": 1, "health": 1 },
+    "abilityText": "When Haywire Mite dies, you gain 2 life. G, Sacrifice Haywire Mite: Exile target noncreature artifact or noncreature enchantment.",
+    "count": 1
+  },
+  {
+    "id": "high_market",
+    "name": "High Market",
+    "cost": "0",
+    "type": "Land",
+    "stats": null,
+    "abilityText": "Tap: Add C. Tap, Sacrifice a creature: You gain 1 life.",
+    "count": 1
+  },
+  {
+    "id": "immoral_bargain",
+    "name": "Immoral Bargain",
+    "cost": "1B",
+    "type": "Sorcery",
+    "stats": null,
+    "abilityText": "As an additional cost to cast this spell, sacrifice a creature. Draw two cards and you gain 2 life.",
+    "count": 1
+  },
+  {
+    "id": "infernal_grasp",
+    "name": "Infernal Grasp",
+    "cost": "1B",
+    "type": "Instant",
+    "stats": null,
+    "abilityText": "Destroy target creature. You lose 2 life.",
+    "count": 1
+  },
+  {
+    "id": "jadar_ghoulcaller_of_nephalia",
+    "name": "Jadar, Ghoulcaller of Nephalia",
+    "cost": "1B",
+    "type": "Legendary Creature — Human Wizard",
+    "stats": { "attack": 1, "health": 1 },
+    "abilityText": "At the beginning of your end step, if you control no creatures with decayed, create a 2/2 black Zombie creature token with decayed.",
+    "count": 1
+  },
+  {
+    "id": "llanowar_wastes",
+    "name": "Llanowar Wastes",
+    "cost": "0",
+    "type": "Land",
+    "stats": null,
+    "abilityText": "Tap: Add C. Tap: Add B or G. Llanowar Wastes deals 1 damage to you.",
+    "count": 1
+  },
+  {
+    "id": "mazirek_kraul_death_priest",
+    "name": "Mazirek, Kraul Death Priest",
+    "cost": "3BG",
+    "type": "Legendary Creature — Insect Cleric",
+    "stats": { "attack": 2, "health": 2 },
+    "abilityText": "Flying. Whenever a player sacrifices another permanent, put a +1/+1 counter on each creature you control.",
+    "count": 1
+  },
+  {
+    "id": "merchant_of_venom",
+    "name": "Merchant of Venom",
+    "cost": "2G",
+    "type": "Creature — Snake Citizen",
+    "stats": { "attack": 2, "health": 3 },
+    "abilityText": "Deathtouch. When Merchant of Venom enters, you gain 3 life.",
+    "count": 1
+  },
+  {
+    "id": "moldervine_reclamation",
+    "name": "Moldervine Reclamation",
+    "cost": "3BG",
+    "type": "Enchantment",
+    "stats": null,
+    "abilityText": "Whenever a creature you control dies, you gain 1 life and draw a card.",
+    "count": 1
+  },
+  {
+    "id": "morbid_opportunist",
+    "name": "Morbid Opportunist",
+    "cost": "2B",
+    "type": "Creature — Human Rogue",
+    "stats": { "attack": 1, "health": 3 },
+    "abilityText": "Whenever one or more other creatures die, draw a card. This ability triggers only once each turn.",
+    "count": 1
+  },
+  {
+    "id": "mortality_spear",
+    "name": "Mortality Spear",
+    "cost": "2BG",
+    "type": "Instant",
+    "stats": null,
+    "abilityText": "This spell costs 2 less to cast if you gained life this turn. Destroy target nonland permanent.",
+    "count": 1
+  },
+  {
+    "id": "mycoloth",
+    "name": "Mycoloth",
+    "cost": "3GG",
+    "type": "Creature — Fungus",
+    "stats": { "attack": 4, "health": 4 },
+    "abilityText": "Devour 2. At the beginning of your upkeep, create a 1/1 green Saproling creature token for each +1/+1 counter on Mycoloth.",
+    "count": 1
+  },
+  {
+    "id": "necroblossom_snarl",
+    "name": "Necroblossom Snarl",
+    "cost": "0",
+    "type": "Land",
+    "stats": null,
+    "abilityText": "As Necroblossom Snarl enters the battlefield, you may reveal a Swamp or Forest card from your hand. If you don't, it enters tapped. Tap: Add B or G.",
+    "count": 1
+  },
+  {
+    "id": "nether_traitor",
+    "name": "Nether Traitor",
+    "cost": "BB",
+    "type": "Creature — Spirit",
+    "stats": { "attack": 1, "health": 1 },
+    "abilityText": "Haste, Shadow. Whenever another creature is put into a graveyard from the battlefield, you may pay B. If you do, return Nether Traitor from your graveyard to the battlefield.",
+    "count": 1
+  },
+  {
+    "id": "nights_whisper",
+    "name": "Night's Whisper",
+    "cost": "1B",
+    "type": "Sorcery",
+    "stats": null,
+    "abilityText": "You draw two cards and you lose 2 life.",
+    "count": 1
+  },
+  {
+    "id": "ohran_frostfang",
+    "name": "Ohran Frostfang",
+    "cost": "3GG",
+    "type": "Snow Creature — Snake",
+    "stats": { "attack": 2, "health": 6 },
+    "abilityText": "Attacking creatures you control have deathtouch. Whenever a creature you control deals combat damage to a player, draw a card.",
+    "count": 1
+  },
+  {
+    "id": "ominous_harvest",
+    "name": "Ominous Harvest",
+    "cost": "2B",
+    "type": "Sorcery",
+    "stats": null,
+    "abilityText": "Sacrifice any number of creatures. You draw that many cards and gain that much life.",
+    "count": 1
+  },
+  {
+    "id": "ophiomancer",
+    "name": "Ophiomancer",
+    "cost": "2B",
+    "type": "Creature — Human Shaman",
+    "stats": { "attack": 2, "health": 2 },
+    "abilityText": "At the beginning of each upkeep, if you control no Snakes, create a 1/1 black Snake creature token with deathtouch.",
+    "count": 1
+  },
+  {
+    "id": "path_of_ancestry",
+    "name": "Path of Ancestry",
+    "cost": "0",
+    "type": "Land",
+    "stats": null,
+    "abilityText": "Path of Ancestry enters the battlefield tapped. Tap: Add one mana of any color in your commander's color identity. When that mana is spent to cast a creature spell that shares a creature type with your commander, scry 1.",
+    "count": 1
+  },
+  {
+    "id": "pawn_of_ulamog",
+    "name": "Pawn of Ulamog",
+    "cost": "1BB",
+    "type": "Creature — Vampire Shaman",
+    "stats": { "attack": 2, "health": 2 },
+    "abilityText": "Whenever Pawn of Ulamog or another nontoken creature you control dies, you may create a 0/1 colorless Eldrazi Spawn creature token.",
+    "count": 1
+  },
+  {
+    "id": "pest_infestation",
+    "name": "Pest Infestation",
+    "cost": "XXG",
+    "type": "Sorcery",
+    "stats": null,
+    "abilityText": "Destroy up to X target artifacts and/or enchantments. Create twice X 1/1 black and green Pest creature tokens with 'When this creature dies, you gain 1 life.'",
+    "count": 1
+  },
+  {
+    "id": "pest_rescuer",
+    "name": "Pest Rescuer",
+    "cost": "2G",
+    "type": "Creature — Pest Druid",
+    "stats": { "attack": 2, "health": 3 },
+    "abilityText": "When Pest Rescuer dies, return another target creature card with mana value 2 or less from your graveyard to your hand.",
+    "count": 1
+  },
+  {
+    "id": "plumb_the_forbidden",
+    "name": "Plumb the Forbidden",
+    "cost": "1B",
+    "type": "Instant",
+    "stats": null,
+    "abilityText": "As an additional cost to cast this spell, you may sacrifice one or more creatures. When you cast this spell, copy it for each creature sacrificed this way. You draw a card and lose 1 life.",
+    "count": 1
+  },
+  {
+    "id": "priest_of_forgotten_gods",
+    "name": "Priest of Forgotten Gods",
+    "cost": "1B",
+    "type": "Creature — Human Cleric",
+    "stats": { "attack": 1, "health": 2 },
+    "abilityText": "Tap, Sacrifice two other creatures: Any number of target players each lose 2 life and sacrifice a creature. You add BB and draw a card.",
+    "count": 1
+  },
+  {
+    "id": "ribtruss_roaster",
+    "name": "Ribtruss Roaster",
+    "cost": "3B",
+    "type": "Creature — Horror",
+    "stats": { "attack": 3, "health": 4 },
+    "abilityText": "When Ribtruss Roaster enters, each opponent loses 2 life and you gain 2 life.",
+    "count": 1
+  },
+  {
+    "id": "sakura_tribe_elder",
+    "name": "Sakura-Tribe Elder",
+    "cost": "1G",
+    "type": "Creature — Snake Shaman",
+    "stats": { "attack": 1, "health": 1 },
+    "abilityText": "Sacrifice Sakura-Tribe Elder: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle.",
+    "count": 1
+  },
+  {
+    "id": "smothering_abomination",
+    "name": "Smothering Abomination",
+    "cost": "2BB",
+    "type": "Creature — Eldrazi Procession",
+    "stats": { "attack": 4, "health": 3 },
+    "abilityText": "Flying. At the beginning of your upkeep, sacrifice a creature. Whenever you sacrifice a creature, draw a card.",
+    "count": 1
+  },
+  {
+    "id": "sol_ring",
+    "name": "Sol Ring",
+    "cost": "1",
+    "type": "Artifact",
+    "stats": null,
+    "abilityText": "Tap: Add CC.",
+    "count": 1
+  },
+  {
+    "id": "springbloom_druid",
+    "name": "Springbloom Druid",
+    "cost": "2G",
+    "type": "Creature — Elf Druid",
+    "stats": { "attack": 2, "health": 1 },
+    "abilityText": "When Springbloom Druid enters the battlefield, you may sacrifice a land. If you do, search your library for up to two basic land cards, put them onto the battlefield tapped, then shuffle.",
+    "count": 1
+  },
+  {
+    "id": "stensian_sanguinist_exsanguinate",
+    "name": "Stensian Sanguinist // Exsanguinate",
+    "cost": "1B",
+    "type": "Creature — Vampire Cleric // Sorcery",
+    "stats": { "attack": 2, "health": 1 },
+    "abilityText": "Whenever you attack, target creature gains deathtouch until end of turn. Whenever that creature deals combat damage to a player, this creature becomes prepared.",
+    "count": 1
+  },
+  {
+    "id": "study_hall",
+    "name": "Study Hall",
+    "cost": "0",
+    "type": "Land",
+    "stats": null,
+    "abilityText": "Tap: Add C. Tap: Add one mana of any color. Spend this mana only to cast a Commander spell. When you cast your commander, Scry X where X is the times it was cast from command zone.",
+    "count": 1
+  },
+  {
+    "id": "swamp",
+    "name": "Swamp",
+    "cost": "0",
+    "type": "Basic Land — Swamp",
+    "stats": null,
+    "abilityText": "Tap: Add B.",
+    "count": 8
+  },
+  {
+    "id": "teachers_pest",
+    "name": "Teacher's Pest",
+    "cost": "1G",
+    "type": "Creature — Pest",
+    "stats": { "attack": 2, "health": 2 },
+    "abilityText": "When Teacher's Pest dies, you gain 2 life.",
+    "count": 1
+  },
+  {
+    "id": "temple_of_malady",
+    "name": "Temple of Malady",
+    "cost": "0",
+    "type": "Land",
+    "stats": null,
+    "abilityText": "Temple of Malady enters the battlefield tapped. When Temple of Malady enters the battlefield, scry 1. Tap: Add B or G.",
+    "count": 1
+  },
+  {
+    "id": "tendershoot_dryad",
+    "name": "Tendershoot Dryad",
+    "cost": "4G",
+    "type": "Creature — Dryad",
+    "stats": { "attack": 2, "health": 2 },
+    "abilityText": "Ascend. At the beginning of each upkeep, create a 1/1 green Saproling creature token. Saprolings you control get +2/+2 as long as you have the city's blessing.",
+    "count": 1
+  },
+  {
+    "id": "terramorphic_expanse",
+    "name": "Terramorphic Expanse",
+    "cost": "0",
+    "type": "Land",
+    "stats": null,
+    "abilityText": "Tap, Sacrifice Terramorphic Expanse: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle.",
+    "count": 1
+  },
+  {
+    "id": "titans_grave",
+    "name": "Titan's Grave",
+    "cost": "0",
+    "type": "Land",
+    "stats": null,
+    "abilityText": "Tap: Add C. 1, Tap: Scry 1 if you control a Legendary creature.",
+    "count": 1
+  },
+  {
+    "id": "toxic_deluge",
+    "name": "Toxic Deluge",
+    "cost": "2B",
+    "type": "Sorcery",
+    "stats": null,
+    "abilityText": "As an additional cost to cast this spell, pay X life. All creatures get -X/-X until end of turn.",
+    "count": 1
+  },
+  {
+    "id": "trudge_garden",
+    "name": "Trudge Garden",
+    "cost": "2G",
+    "type": "Enchantment",
+    "stats": null,
+    "abilityText": "Whenever you gain life, you may pay 2. If you do, create a 4/4 green Trample Fungus Beast creature token.",
+    "count": 1
+  },
+  {
+    "id": "turbulent_fen",
+    "name": "Turbulent Fen",
+    "cost": "0",
+    "type": "Land",
+    "stats": null,
+    "abilityText": "Turbulent Fen enters the battlefield tapped. Tap: Add B or G.",
+    "count": 1
+  },
+  {
+    "id": "twilight_mire",
+    "name": "Twilight Mire",
+    "cost": "0",
+    "type": "Land",
+    "stats": null,
+    "abilityText": "Tap: Add C. (B/G), Tap: Add BB, BG, or GG.",
+    "count": 1
+  },
+  {
+    "id": "umbral_collar_zealot",
+    "name": "Umbral Collar Zealot",
+    "cost": "1B",
+    "type": "Creature — Human Cleric",
+    "stats": { "attack": 2, "health": 1 },
+    "abilityText": "Sacrifice another creature: Umbral Collar Zealot gets +1/+1 until end of turn.",
+    "count": 1
+  },
+  {
+    "id": "veinwitch_coven",
+    "name": "Veinwitch Coven",
+    "cost": "2B",
+    "type": "Creature — Vampire Warlock",
+    "stats": { "attack": 3, "health": 3 },
+    "abilityText": "Menace. Whenever you gain life, you may pay 1B. If you do, return target creature card from your graveyard to your hand.",
+    "count": 1
+  },
+  {
+    "id": "vernal_fen",
+    "name": "Vernal Fen",
+    "cost": "0",
+    "type": "Land",
+    "stats": null,
+    "abilityText": "Tap: Add C. Tap, Pay 1 life: Add B or G.",
+    "count": 1
+  },
+  {
+    "id": "viridescent_bog",
+    "name": "Viridescent Bog",
+    "cost": "0",
+    "type": "Land",
+    "stats": null,
+    "abilityText": "Viridescent Bog enters the battlefield tapped unless you control a Swamp or a Forest. Tap: Add B or G.",
+    "count": 1
+  },
+  {
+    "id": "viscera_seer",
+    "name": "Viscera Seer",
+    "cost": "B",
+    "type": "Creature — Vampire Wizard",
+    "stats": { "attack": 1, "health": 1 },
+    "abilityText": "Sacrifice a creature: Scry 1.",
+    "count": 1
+  },
+  {
+    "id": "wight_of_the_reliquary",
+    "name": "Wight of the Reliquary",
+    "cost": "BG",
+    "type": "Creature — Zombie Knight",
+    "stats": { "attack": 2, "health": 2 },
+    "abilityText": "Wight of the Reliquary gets +1/+1 for each creature card in your graveyard. Tap, Sacrifice another creature: Search your library for a land card, put it onto the battlefield tapped, then shuffle.",
+    "count": 1
+  },
+  {
+    "id": "witch_of_the_moors",
+    "name": "Witch of the Moors",
+    "cost": "3B",
+    "type": "Creature — Human Warlock",
+    "stats": { "attack": 4, "health": 4 },
+    "abilityText": "At the beginning of your end step, if you gained life this turn, each opponent sacrifices a creature and you return a creature card from your graveyard to your hand.",
+    "count": 1
+  },
+  {
+    "id": "witherbloom_campus",
+    "name": "Witherbloom Campus",
+    "cost": "0",
+    "type": "Land",
+    "stats": null,
+    "abilityText": "Witherbloom Campus enters the battlefield tapped. Tap: Add B or G. 4, Tap: Scry 1.",
+    "count": 1
+  },
+  {
+    "id": "witherbloom_charm",
+    "name": "Witherbloom Charm",
+    "cost": "BG",
+    "type": "Instant",
+    "stats": null,
+    "abilityText": "Choose one — Destroy target nonland permanent with mana value 3 or less; or Target player loses 3 life and you gain 3 life; or Target creature gets +3/+3 and gains trample until end of turn.",
+    "count": 1
+  },
+  {
+    "id": "witherbloom_command",
+    "name": "Witherbloom Command",
+    "cost": "BG",
+    "type": "Sorcery",
+    "stats": null,
+    "abilityText": "Choose two — Target player mills three cards, then you may return a land card from your graveyard to your hand; or Destroy target nonland, noncreature permanent with mana value 2 or less; or Target creature gets -2/-2 until end of turn; or Target opponent loses 2 life and you gain 2 life.",
+    "count": 1
+  },
+  {
+    "id": "woe_strider",
+    "name": "Woe Strider",
+    "cost": "2B",
+    "type": "Creature — Horror",
+    "stats": { "attack": 3, "health": 2 },
+    "abilityText": "When Woe Strider enters the battlefield, create a 0/1 white Goat creature token. Sacrifice a creature: Scry 1. Escape—3BB, Exile four other cards from your graveyard.",
+    "count": 1
+  },
+  {
+    "id": "woodland_cemetery",
+    "name": "Woodland Cemetery",
+    "cost": "0",
+    "type": "Land",
+    "stats": null,
+    "abilityText": "Woodland Cemetery enters the battlefield tapped unless you control a Swamp or a Forest. Tap: Add B or G.",
+    "count": 1
+  },
+  {
+    "id": "yahenni_undying_partisan",
+    "name": "Yahenni, Undying Partisan",
+    "cost": "2B",
+    "type": "Legendary Creature — Aetherborn Vampire",
+    "stats": { "attack": 2, "health": 2 },
+    "abilityText": "Haste. Whenever an opponent's creature dies, put a +1/+1 counter on Yahenni. Sacrifice another creature: Yahenni gains indestructible until end of turn.",
+    "count": 1
+  },
+  {
+    "id": "zulaport_cutthroat",
+    "name": "Zulaport Cutthroat",
+    "cost": "1B",
+    "type": "Creature — Human Rogue",
+    "stats": { "attack": 1, "health": 1 },
+    "abilityText": "Whenever Zulaport Cutthroat or another creature you control dies, each opponent loses 1 life and you gain 1 life.",
+    "count": 1
+  }
+]
