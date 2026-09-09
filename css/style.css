@@ -253,36 +253,29 @@ body {
   transform-origin: bottom center;
 }
 
-.field-zone {
-  border: 1px solid rgba(197, 160, 89, 0.2);
+/* Battlefield Alanı */
+#battlefield-zone {
+  height: 350px;
+  border: 1px solid rgba(197, 160, 89, 0.3);
   border-radius: 10px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  gap: 14px;
-  padding: 28px 14px 8px 14px;
-  background: linear-gradient(180deg, rgba(15, 18, 24, 0.6) 0%, rgba(8, 10, 14, 0.8) 100%);
-  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
+  background: linear-gradient(180deg, rgba(15, 18, 24, 0.7) 0%, rgba(8, 10, 14, 0.9) 100%);
   position: relative;
-  overflow-x: auto;
-}
-
-.creature-zone { 
-  height: 195px; 
-  border-color: rgba(180, 50, 50, 0.3);
+  overflow: hidden;
   z-index: 3;
 }
 
-.noncreature-zone { 
-  height: 150px; 
-  border-color: rgba(50, 100, 180, 0.3);
-  z-index: 2;
-}
-
-.land-zone { 
-  height: 150px; 
+.land-zone {
+  height: 130px;
   border-color: rgba(40, 140, 60, 0.3);
-  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 24px 10px 8px 10px;
+  background: linear-gradient(180deg, rgba(15, 18, 24, 0.6) 0%, rgba(8, 10, 14, 0.8) 100%);
+  position: relative;
+  overflow-x: auto;
+  z-index: 2;
 }
 
 .zone-label {
@@ -318,7 +311,6 @@ body {
   z-index: 10;
 }
 
-/* MANA POOL YENİ GÖRÜNÜMÜ */
 #mana-pool {
   width: 100%;
   background: rgba(0,0,0,0.6);
@@ -402,20 +394,30 @@ body {
   color: #fff;
 }
 
+/* KART STİLİ VE GEÇİŞLERİ (BOZULMAYAN YAPI) */
 .card-wrapper {
   height: 88%;
   aspect-ratio: 57 / 80;
   border-radius: 5px;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease;
   user-select: none;
   position: relative;
   box-shadow: 0 4px 8px rgba(0,0,0,0.7);
   flex-shrink: 0;
+  transform-origin: center center;
 }
 
 .card-wrapper.tapped {
   transform: rotate(90deg) !important;
+}
+
+#battlefield-zone .card-wrapper {
+  position: absolute;
+  width: 110px;
+  height: 154px;
+  cursor: grab;
+  height: auto;
 }
 
 #player-hand .card-wrapper {
@@ -449,6 +451,7 @@ body {
 
 .card-wrapper.dragging {
   opacity: 0.4;
+  cursor: grabbing;
 }
 
 .btn {
@@ -523,14 +526,6 @@ body {
   height: 154px;
 }
 
-#casting-zone {
-  cursor: default !important;
-}
-#casting-card-slot .card-wrapper {
-  height: 90% !important;
-  width: auto !important;
-}
-
 .game-counter {
   position: absolute;
   background: rgba(0, 0, 0, 0.85);
@@ -560,96 +555,4 @@ body {
 .game-counter.minus {
   border-color: #ef5350;
   color: #ef5350;
-}
-
-/* Battlefield Alanı - Serbest Konumlandırma İçin Pozisyonlama */
-#battlefield-zone {
-  height: 280px;
-  border: 1px solid rgba(197, 160, 89, 0.3);
-  border-radius: 10px;
-  background: linear-gradient(180deg, rgba(15, 18, 24, 0.7) 0%, rgba(8, 10, 14, 0.9) 100%);
-  position: relative;
-  overflow: hidden;
-  z-index: 3;
-}
-
-.land-zone {
-  height: 130px;
-  border-color: rgba(40, 140, 60, 0.3);
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  gap: 10px;
-  padding: 24px 10px 8px 10px;
-  background: linear-gradient(180deg, rgba(15, 18, 24, 0.6) 0%, rgba(8, 10, 14, 0.8) 100%);
-  position: relative;
-  overflow-x: auto;
-  z-index: 2;
-}
-
-/* Battlefield içindeki serbest kart konumlandırma stili */
-#battlefield-zone .card-wrapper {
-  position: absolute;
-  width: 110px;
-  height: 154px;
-  cursor: grab;
-}
-
-#battlefield-zone .card-wrapper.dragging {
-  cursor: grabbing;
-  opacity: 0.5;
-}
-
-/* Battlefield Alanı - En az iki kart yüksekliğinde (yaklaşık 350px) olacak şekilde ayarlandı */
-#battlefield-zone {
-  height: 350px;
-  border: 1px solid rgba(197, 160, 89, 0.3);
-  border-radius: 10px;
-  background: linear-gradient(180deg, rgba(15, 18, 24, 0.7) 0%, rgba(8, 10, 14, 0.9) 100%);
-  position: relative;
-  overflow: hidden;
-  z-index: 3;
-}
-
-.land-zone {
-  height: 130px;
-  border-color: rgba(40, 140, 60, 0.3);
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  gap: 10px;
-  padding: 24px 10px 8px 10px;
-  background: linear-gradient(180deg, rgba(15, 18, 24, 0.6) 0%, rgba(8, 10, 14, 0.8) 100%);
-  position: relative;
-  overflow-x: auto;
-  z-index: 2;
-}
-
-#battlefield-zone .card-wrapper {
-  position: absolute;
-  width: 110px;
-  height: 154px;
-  cursor: grab;
-}
-
-#battlefield-zone .card-wrapper.dragging {
-  cursor: grabbing;
-  opacity: 0.5;
-}
-
-/* Kart Dönme Stili (Q ve E Tuşları İçin) */
-.card-wrapper {
-  transition: transform 0.2s ease;
-}
-
-.card-wrapper.rot-90 {
-  transform: rotate(90deg);
-}
-
-.card-wrapper.rot-180 {
-  transform: rotate(180deg);
-}
-
-.card-wrapper.rot-270 {
-  transform: rotate(270deg);
 }
