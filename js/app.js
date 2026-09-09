@@ -10,22 +10,28 @@ document.addEventListener('DOMContentLoaded', () => {
   const welcomeModal = document.getElementById('welcome-modal');
   const joinBtn = document.getElementById('join-table-btn');
   const nicknameInput = document.getElementById('player-nickname-input');
+  const decklistInput = document.getElementById('decklist-input');
 
   if (joinBtn) {
     joinBtn.addEventListener('click', async () => {
       const nameVal = nicknameInput.value.trim();
       if (nameVal) myNickname = nameVal;
 
+      const deckText = decklistInput ? decklistInput.value.trim() : "";
       welcomeModal.style.display = 'none';
 
       socket.emit('join-room', { roomCode, username: myNickname });
 
-      try {
-        const response = await fetch('cards.json');
-        const rawCards = await response.json();
-        initGameFromJSON(rawCards);
-      } catch (error) {
-        console.error("Failed to load cards.json:", error);
+      if (deckText) {
+        parseAndInitDeck(deckText);
+      } else {
+        try {
+          const response = await fetch('cards.json');
+          const rawCards = await response.json();
+          initGameFromJSON(rawCards);
+        } catch (error) {
+          console.error("Failed to load cards.json:", error);
+        }
       }
     });
   }
@@ -129,6 +135,24 @@ document.addEventListener('DOMContentLoaded', () => {
   const shuffleBtn = document.getElementById('shuffle-btn');
   if (shuffleBtn) shuffleBtn.addEventListener('click', () => { shuffle(deck); alert("Library shuffled!"); });
 });
+
+function parseAndInitDeck(text) {
+  const lines = text.split('\n');
+  const rawCards = [];
+  lines.forEach(line => {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('//')) return;
+    const match = trimmed.match(/^(\d+)\s+(.+)$/);
+    let count = 1;
+    let name = trimmed;
+    if (match) {
+      count = parseInt(match[1]);
+      name = match[2];
+    }
+    rawCards.push({ name: name.trim(), count: count, type: name.toLowerCase().includes('land') ? 'Land' : 'Creature' });
+  });
+  initGameFromJSON(rawCards);
+}
 
 function spawnCounter(type) {
   const arenaFrame = document.getElementById('arena-frame');
