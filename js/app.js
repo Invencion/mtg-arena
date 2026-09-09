@@ -423,7 +423,7 @@ let selectedTutorCard = null;
 let manaPool = { C: 0, W: 0, U: 0, B: 0, R: 0, G: 0 };
 let isZPressed = false;
 let currentHoveredCardImgSrc = null;
-let currentHoveredCardInstanceId = null; // Q ve E tuşları için hover takibi
+let currentHoveredCardInstanceId = null;
 
 window.addEventListener('keydown', (e) => {
   const key = e.key.toLowerCase();
@@ -431,7 +431,6 @@ window.addEventListener('keydown', (e) => {
     isZPressed = true;
     if (currentHoveredCardImgSrc) showTtsPopup(currentHoveredCardImgSrc);
   } else if (key === 'q' || key === 'e') {
-    // Fareyle üzerine gelinen bir kart varsa Q (sola) veya E (sağa) döndür
     if (currentHoveredCardInstanceId) {
       rotateCard(currentHoveredCardInstanceId, key === 'e' ? 90 : -90);
     }
@@ -447,13 +446,10 @@ window.addEventListener('keyup', (e) => {
 
 function rotateCard(instanceId, angleChange) {
   let targetCard = null;
-  let isLand = false;
 
-  // Battlefield ve Lands içinde kartı bulalım
   targetCard = boardState.battlefield.find(c => c.instanceId === instanceId);
   if (!targetCard) {
     targetCard = boardState.lands.find(c => c.instanceId === instanceId);
-    if (targetCard) isLand = true;
   }
   if (!targetCard && commander && commander.instanceId === instanceId) {
     targetCard = commander;
@@ -580,10 +576,11 @@ function createCardElement(card, isOnBoard = false, isLandZone = false) {
   wrapper.classList.add('card-wrapper');
   if (card.isTapped) wrapper.classList.add('tapped');
   
-  if (card.rotation && card.rotation > 0) {
-    wrapper.style.transform = `rotate(${card.rotation}deg)`;
-  }
-  
+  // Rotasyon ve tap açısını birleştirip akıcı geçiş sağlama
+  let totalRot = card.rotation || 0;
+  if (card.isTapped) totalRot += 90;
+  wrapper.style.transform = `rotate(${totalRot}deg)`;
+
   wrapper.draggable = true;
   wrapper.dataset.instanceId = card.instanceId;
 
