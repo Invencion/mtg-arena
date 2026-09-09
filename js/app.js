@@ -139,10 +139,25 @@ document.addEventListener('DOMContentLoaded', () => {
 function parseAndInitDeck(text) {
   const lines = text.split('\n');
   const rawCards = [];
+  let isCommanderSection = false;
   
   lines.forEach(line => {
     let trimmed = line.trim();
-    if (!trimmed || trimmed.startsWith('//') || trimmed.toLowerCase().includes('commander')) return;
+    if (!trimmed || trimmed.startsWith('//')) return;
+    
+    const lower = trimmed.toLowerCase();
+    if (lower.includes('commander') || lower.includes('companion')) {
+      isCommanderSection = true;
+      return;
+    }
+    if (lower.includes('deck') || lower.includes('mainboard')) {
+      isCommanderSection = false;
+      return;
+    }
+    if (lower.includes('sideboard')) {
+      isCommanderSection = false;
+      return;
+    }
     
     trimmed = trimmed.replace(/\s*\([A-Z0-9]+\)\s*\d+.*$/, '');
     trimmed = trimmed.replace(/^\s*\*?[Ff]?\s*/, '');
@@ -169,6 +184,10 @@ function parseAndInitDeck(text) {
         lowerName.includes("fetchland") || lowerName.includes("command tower") ||
         lowerName.includes("overgrown tomb") || lowerName.includes("underground mortuary")) {
       typeStr = "Land";
+    }
+
+    if (isCommanderSection) {
+      typeStr = "Legendary";
     }
 
     rawCards.push({ 
@@ -380,7 +399,7 @@ function initGameFromJSON(rawCards) {
   clearManaPool();
 
   rawCards.forEach(card => {
-    const isLegendary = card.type && card.type.toLowerCase().includes("legendary");
+    const isLegendary = card.type && (card.type.toLowerCase().includes("legendary") || card.type.toLowerCase().includes("legend"));
     if (isLegendary && !commander) {
       commander = { ...card, instanceId: "commander-card-id", isTapped: false, isFacedDown: false };
     } else {
