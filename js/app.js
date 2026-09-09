@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     selectedTutorCard.isTapped = false;
     selectedTutorCard.isFacedDown = false;
     selectedTutorCard.x = 50 + Math.random() * 200;
-    selectedTutorCard.y = 20 + Math.random() * 50;
+    selectedTutorCard.y = 20 + Math.random() * 100;
     if (typeStr.includes('land')) boardState.lands.push(selectedTutorCard);
     else boardState.battlefield.push(selectedTutorCard);
     finalizeTutor();
@@ -513,8 +513,8 @@ function setupDropZones() {
       if (!instanceId) return;
 
       const rect = zone.getBoundingClientRect();
-      const dropX = e.clientX - rect.left - 55; // Kart genişliğinin ortalaması
-      const dropY = e.clientY - rect.top - 77;  // Kart yüksekliğinin ortalaması
+      const dropX = e.clientX - rect.left - 55;
+      const dropY = e.clientY - rect.top - 77;
 
       handleCardDrop(instanceId, zone.id, dropX, dropY);
     });
@@ -687,7 +687,7 @@ function renderMiniZone(zoneEl, cardArray, isFreeForm = false) {
     
     if (isFreeForm && card.x !== undefined && card.y !== undefined) {
       miniCard.style.position = 'absolute';
-      miniCard.style.left = `${card.x * 0.4}px`; // Mini görünüm için ölçeklendirme
+      miniCard.style.left = `${card.x * 0.4}px`;
       miniCard.style.top = `${card.y * 0.4}px`;
       miniCard.style.width = '44px';
       miniCard.style.height = '61px';
