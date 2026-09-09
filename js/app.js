@@ -139,63 +139,72 @@ document.addEventListener('DOMContentLoaded', () => {
 function parseAndInitDeck(text) {
   const lines = text.split('\n');
   const rawCards = [];
-  let isCommanderSection = false;
   
-  lines.forEach(line => {
-    let trimmed = line.trim();
-    if (!trimmed || trimmed.startsWith('//')) return;
-    
-    const lower = trimmed.toLowerCase();
-    if (lower.includes('commander') || lower.includes('companion')) {
-      isCommanderSection = true;
+  const cleanLines = lines.map(l => l.trim()).filter(l => l && !l.startsWith('//'));
+  let commanderName = "";
+
+  if (cleanLines.length > 0) {
+    const lastLine = cleanLines[cleanLines.length - 1];
+    const cmdMatch = lastLine.match(/^(\d+)[xX]?\s+(.+)$/);
+    commanderName = cmdMatch ? cmdMatch[2].trim() : lastLine;
+  }
+
+  let isSideboard = false;
+
+  cleanLines.forEach((line, index) => {
+    if (index === cleanLines.length - 1) return;
+
+    const lower = line.toLowerCase();
+    if (lower.includes('sideboard:')) {
+      isSideboard = true;
       return;
     }
-    if (lower.includes('deck') || lower.includes('mainboard')) {
-      isCommanderSection = false;
+
+    if (isSideboard && (lower.includes('mana') || lower.includes('counter'))) {
       return;
     }
-    if (lower.includes('sideboard')) {
-      isCommanderSection = false;
-      return;
-    }
-    
-    trimmed = trimmed.replace(/\s*\([A-Z0-9]+\)\s*\d+.*$/, '');
-    trimmed = trimmed.replace(/^\s*\*?[Ff]?\s*/, '');
-    
-    const match = trimmed.match(/^(\d+)[xX]?\s+(.+)$/);
+
+    let cleanedLine = line.replace(/\s*\([A-Z0-9]+\)\s*\d+.*$/, '');
+    cleanedLine = cleanedLine.replace(/^\s*\*?[Ff]?\s*/, '');
+
+    const match = cleanedLine.match(/^(\d+)[xX]?\s+(.+)$/);
     let count = 1;
-    let name = trimmed;
-    
+    let name = cleanedLine;
+
     if (match) {
       count = parseInt(match[1]);
       name = match[2];
     }
-    
+
     name = name.trim();
     if (!name) return;
 
     const lowerName = name.toLowerCase();
     let typeStr = "Creature";
-    
-    if (lowerName.includes("land") || 
-        lowerName.includes("forest") || lowerName.includes("swamp") || 
-        lowerName.includes("island") || lowerName.includes("plains") || 
-        lowerName.includes("mountain") || lowerName.includes("shockland") ||
-        lowerName.includes("fetchland") || lowerName.includes("command tower") ||
-        lowerName.includes("overgrown tomb") || lowerName.includes("underground mortuary")) {
+
+    if (lowerName.includes("mountain") || lowerName.includes("forest") || 
+        lowerName.includes("swamp") || lowerName.includes("island") || 
+        lowerName.includes("plains") || lowerName.includes("cave") || 
+        lowerName.includes("mine") || lowerName.includes("keep") || 
+        lowerName.includes("tower") || lowerName.includes("room") || 
+        lowerName.includes("arena") || lowerName.includes("knoll")) {
       typeStr = "Land";
     }
 
-    if (isCommanderSection) {
-      typeStr = "Legendary";
-    }
-
-    rawCards.push({ 
-      name: name, 
-      count: count, 
-      type: typeStr 
+    rawCards.push({
+      name: name,
+      count: count,
+      type: typeStr
     });
   });
+
+  if (commanderName) {
+    rawCards.push({
+      name: commanderName,
+      count: 1,
+      type: "Legendary"
+    });
+  }
 
   initGameFromJSON(rawCards);
 }
