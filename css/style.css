@@ -236,14 +236,15 @@ body {
   border-radius: 2px;
 }
 
-/* KIRMIZI İLE İŞARETLENEN ALAN STİLİ (Üst Turn Barı) */
+/* TURN BARı ORTALANMIŞ YAPI */
 #top-turn-control-bar {
   height: 26px;
   background: rgba(0, 0, 0, 0.5);
   border-bottom: 1px solid rgba(197, 160, 89, 0.3);
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  gap: 15px;
   padding: 0 15px;
   z-index: 15;
 }
@@ -311,7 +312,7 @@ body {
   z-index: 100;
 }
 
-/* MAVİ İLE İŞARETLENEN ALAN STİLİ (Floating Action Toolbar) */
+/* SAĞ ALT AKSİYON TOOLBAR */
 #floating-action-toolbar {
   position: absolute;
   bottom: 25px;
@@ -328,7 +329,7 @@ body {
   box-shadow: 0 4px 12px rgba(0,0,0,0.8);
 }
 
-/* SAĞ SIDEBAR (Saf Zonelar ve Tam Boy Commander Kulesi) */
+/* SAĞ SIDEBAR & COMMANDER KULESİ */
 #deck-zone {
   width: 165px;
   background: rgba(8, 9, 12, 0.9);
@@ -337,19 +338,19 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 8px;
+  padding: 6px;
   z-index: 10;
   height: 100%;
-  gap: 6px;
+  gap: 4px;
 }
 
-/* Commander Alanı Tam Kart Oranında (57 / 80) Kusursuz Yerleşim */
+/* Commander Alanı Sadece Kartı Sığdıracak Kusursuz Yükseklik */
 #command-zone {
   width: 100%;
-  aspect-ratio: 57 / 80;
+  height: 110px;
   border: 2px solid #ffd700;
   background: rgba(255, 215, 0, 0.05);
-  border-radius: 6px;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -357,12 +358,12 @@ body {
   position: relative;
   box-shadow: 0 3px 8px rgba(0,0,0,0.6);
   flex-shrink: 0;
-  padding: 4px;
+  padding: 2px;
 }
 
 #commander-card-slot {
   width: 100%;
-  height: calc(100% - 14px);
+  height: calc(100% - 12px);
   position: relative;
   display: flex;
   justify-content: center;
@@ -371,11 +372,11 @@ body {
 
 #commander-card-slot .card-wrapper {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  height: 90px;
+  aspect-ratio: 57 / 80;
 }
 
-/* Diğer Piler Kalan Dikey Alanı Esnek ve Eşit Paylaşır */
+/* Diğer Piler Alanı Eşit Paylaşır */
 .pile {
   width: 100%;
   flex: 1;
@@ -387,12 +388,12 @@ body {
   position: relative;
   background: #121418;
   border: 1px solid rgba(197, 160, 89, 0.3);
-  font-size: 0.6em;
+  font-size: 0.55em;
   color: #c5a059;
   user-select: none;
   box-shadow: 0 2px 5px rgba(0,0,0,0.6);
   cursor: pointer;
-  min-height: 40px;
+  min-height: 32px;
 }
 
 #sideboard-pile {
@@ -407,7 +408,7 @@ body {
 }
 
 .pile-count {
-  font-size: 1.15em;
+  font-size: 1.1em;
   font-weight: bold;
   margin-top: 1px;
   color: #fff;
@@ -418,7 +419,7 @@ body {
   aspect-ratio: 57 / 80;
   border-radius: 5px;
   cursor: pointer;
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   user-select: none;
   position: relative;
   box-shadow: 0 4px 8px rgba(0,0,0,0.7);
@@ -435,7 +436,6 @@ body {
   width: 110px;
   height: 154px;
   cursor: grab;
-  height: auto;
 }
 
 #player-hand .card-wrapper {
@@ -476,11 +476,11 @@ body {
   background: linear-gradient(180deg, #388e3c 0%, #1b5e20 100%);
   color: white;
   border: 1px solid #c5a059;
-  padding: 5px;
+  padding: 4px;
   border-radius: 4px;
   cursor: pointer;
   font-weight: bold;
-  font-size: 0.65em;
+  font-size: 0.6em;
   width: 100%;
   text-transform: uppercase;
   flex-shrink: 0;
