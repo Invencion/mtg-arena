@@ -11,11 +11,11 @@
 
   <!-- GİRİŞ EKRANI MODALI -->
   <div class="modal-overlay" id="welcome-modal" style="display: flex; background: rgba(5,6,8,0.95); z-index: 10000;">
-    <div class="modal-content" style="width: 450px; text-align: center; padding: 25px;">
+    <div class="modal-content" style="width: 500px; text-align: center; padding: 25px;">
       <div class="modal-header" style="justify-content: center; border: none;">
         <h2 style="color: #ffd700; font-family: 'Cinzel', serif; letter-spacing: 2px;">MTG COMMANDER ARENA</h2>
       </div>
-      <p style="color: #aaa; font-size: 0.75em; margin-bottom: 20px;">Enter your battlefield credentials & decklist</p>
+      <p style="color: #aaa; font-size: 0.75em; margin-bottom: 20px;">Enter your battlefield credentials & paste decklist</p>
       
       <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; text-align: left;">
         <div>
@@ -23,8 +23,8 @@
           <input type="text" id="player-nickname-input" placeholder="e.g. Alperen" value="Player" style="width: 100%; padding: 10px; background: #050608; border: 1px solid #c5a059; color: #fff; border-radius: 4px; font-family: inherit;" />
         </div>
         <div>
-          <label style="font-size: 0.65em; color: #c5a059; display: block; margin-bottom: 4px;">DECK FILE (CARDS.JSON)</label>
-          <input type="file" id="deck-file-input" accept=".json" style="width: 100%; padding: 8px; background: #050608; border: 1px solid #c5a059; color: #fff; border-radius: 4px; font-family: inherit; font-size: 0.75em;" />
+          <label style="font-size: 0.65em; color: #c5a059; display: block; margin-bottom: 4px;">DECKLIST (e.g. 1 Sol Ring)</label>
+          <textarea id="decklist-input" placeholder="Paste your decklist here..." style="width: 100%; height: 120px; padding: 10px; background: #050608; border: 1px solid #c5a059; color: #fff; border-radius: 4px; font-family: inherit; font-size: 0.75em; resize: vertical;"></textarea>
         </div>
       </div>
 
